@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "../../app/store";
 
 enum UserType {
-  ADMIN,
-  USER,
+  ADMIN = 9,
+  USER = 1,
 }
 
 interface Name {
@@ -12,20 +12,30 @@ interface Name {
 }
 
 interface UserState {
-  readonly id: number;
-  readonly type: UserType;
-  readonly email: string;
-  readonly name: Name;
+  id: number;
+  authentication: {
+    type: UserType;
+    password: string;
+    email: string;
+  };
+  info?: {
+    name?: Name;
+  };
 }
 
 const initialState: Array<UserState> = [
   {
     id: 1,
-    type: UserType.ADMIN,
-    email: "user@example.com",
-    name: {
-      firstName: "John",
-      lastName: "Doe",
+    authentication: {
+      type: UserType.ADMIN,
+      email: "user@example.com",
+      password: "helloworld",
+    },
+    info: {
+      name: {
+        firstName: "John",
+        lastName: "Doe",
+      },
     },
   },
 ];
@@ -35,8 +45,7 @@ export const usersSlice = createSlice({
   initialState,
   reducers: {
     getUser: (state, action) => {
-      const user = state.filter((user) => user.id === action.payload);
-      return user;
+      // state[0].id = 12;
     },
   },
 });
