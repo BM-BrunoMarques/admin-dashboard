@@ -1,25 +1,20 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  decrement,
-  increment,
-  incrementByAmount,
-  incrementAsync,
-  selectCount,
-} from "../../features/counter/counterSlice";
+import { getUser } from "../../features/UserManagement/usersSlice";
 
 const SignIn: React.FC = () => {
-  const count = useSelector(selectCount);
+  // const count = useSelector(selectCount);
   const dispatch = useDispatch();
-  const [incrementAmount, setIncrementAmount] = useState(0);
+  const [user, setUser] = useState({});
 
-  // const count = useAppSelector(selectCount);
-  // const dispatch = useAppDispatch();
+  const loggedUser = dispatch(getUser(1));
+  console.log(loggedUser);
 
   return (
     <div>
-      <div>{count}</div>
-      <button onClick={() => dispatch(increment())}>increment</button>
+      LOGIN
+      {/* <div>{count}</div>
+      <button onClick={() => dispatch(increment())}>increment</button> */}
     </div>
     // <div>
     //   <button onClick={() => dispatch({ type: increment })}> increment</button>
