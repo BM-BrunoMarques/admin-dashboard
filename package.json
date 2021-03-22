@@ -21,7 +21,6 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "typescript": "~3.8.2",
-    "validator": "^13.5.2",
     "yup": "^0.32.9"
   },
   "scripts": {

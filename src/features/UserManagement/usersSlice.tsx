@@ -1,33 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "../../app/store";
+import * as SI from "../../helpers/consts";
 
-enum UserType {
-  ADMIN = 9,
-  USER = 1,
-}
-
-interface Name {
-  firstName: string;
-  lastName: string;
-}
-
-interface UserState {
-  id: number;
-  authentication: {
-    type: UserType;
-    password: string;
-    email: string;
-  };
-  info?: {
-    name?: Name;
-  };
-}
-
-const initialState: Array<UserState> = [
+const initialState: Array<SI.UserState> = [
   {
     id: 1,
     authentication: {
-      type: UserType.ADMIN,
+      type: SI.UserType.ADMIN,
       email: "user@example.com",
       password: "helloworld",
     },

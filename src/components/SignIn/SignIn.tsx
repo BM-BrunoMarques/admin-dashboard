@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useAppSelector } from "../../app/hooks";
-import * as SI from "./SignIn.module";
-import validator from "validator";
+import { useAppDispatch } from "../../app/hooks";
+import { setLoggedIn } from "../../features/Authentication/authSlice";
+// import * as SI from "./SignIn.module";
 import { useStyles } from "./stylesSignIn";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -19,11 +19,8 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 
 const SignIn: React.FC = () => {
-  const allUsers = useAppSelector((state) => {
-    return state.users;
-  });
-
   const classes = useStyles();
+  const dispatch = useAppDispatch();
 
   const validationSchema = yup.object({
     email: yup
@@ -36,6 +33,26 @@ const SignIn: React.FC = () => {
       .required("Password is required"),
   });
 
+  const authenticate = ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    const data = { email: email, password: password };
+    return fetch("https:/fake/user/authenticate", {
+      method: "POST",
+      body: JSON.stringify(data),
+    })
+      .then(() => dispatch(setLoggedIn(true)))
+      .catch((result) => {
+        return formik.setErrors({
+          [result.field]: result.errorMessage,
+        });
+      });
+  };
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -46,43 +63,6 @@ const SignIn: React.FC = () => {
       authenticate(values);
     },
   });
-
-  const emailExistsInDb = (email: string) => {
-    return new Promise((resolve, reject) => {
-      allUsers.find((el) => {
-        const emailExists = el.authentication.email === email;
-        if (emailExists) {
-          return resolve(el.authentication.password);
-        } else {
-          return reject("Your email is not in our system.");
-        }
-      });
-    });
-  };
-
-  const authenticate = ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => {
-    const emailExists = emailExistsInDb(email);
-
-    emailExists
-      .then((response: any) => {
-        if (response !== password) {
-          return formik.setErrors({
-            password: "Wrong Password!",
-          });
-        }
-      })
-      .catch((response) => {
-        return formik.setErrors({
-          email: response,
-        });
-      });
-  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -113,6 +93,8 @@ const SignIn: React.FC = () => {
             helperText={formik.touched.email && formik.errors.email}
           />
           <TextField
+            variant="outlined"
+            margin="normal"
             fullWidth
             id="password"
             name="password"

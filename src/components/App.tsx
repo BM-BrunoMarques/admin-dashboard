@@ -1,41 +1,70 @@
 import React, { useEffect } from "react";
 import "./App.css";
+import { useAppSelector } from "../app/hooks";
 import { Route, Switch, Link, useHistory } from "react-router-dom";
 import SignIn from "./SignIn/SignIn";
 import Dashboard from "./Dashboard/Dashboard";
 
-const PrivateRoute = ({ children, ...rest }: any) => {
-  const history = useHistory();
-
-  return (
-    <Route
-      {...rest}
-      render={({ location }) => {
-        if (false) {
-          // check for Auth
-          history.push({
-            pathname: "/login",
-            state: {
-              from: location,
-            },
-          });
-          return;
-        }
-        return children;
-      }}
-    ></Route>
-  );
-};
-
-const App: React.FC = () => {
+const App: React.FC = (props) => {
+  const isLoggedIn = useAppSelector((state) => state.authenticated);
   const history = useHistory();
 
   useEffect(() => {
-    if (false) {
+    const path = history.location.pathname;
+    if (!isLoggedIn.isAuthenticated) {
+      history.push({
+        pathname: "/login",
+        state: {
+          
+          // from: this.props.location.pathname,
+        },
+      });
+    } else {
+      history.push({
+        pathname: path,
+      });
+    }
+  }, [isLoggedIn]);
+
+  const PrivateRoute = ({ children, ...rest }: any) => {
+    const history = useHistory();
+
+    return (
+      <Route
+        {...rest}
+        render={({ location }) => {
+          if (!isLoggedIn.isAuthenticated) {
+            // check for Auth
+            history.push({
+              pathname: "/login",
+              state: {
+                from: location.pathname,
+              },
+            });
+            return;
+          }
+          return children;
+        }}
+      ></Route>
+    );
+  };
+
+  useEffect(() => {
+    if (!isLoggedIn.isAuthenticated) {
       // check for Auth
       history.push({
         pathname: "/login",
       });
+    } else {
+      if (props) {
+        history.push({
+          // pathname: props.state,
+        });
+      } else {
+        history.push({
+          pathname: "/dashboard",
+        });
+      }
     }
   }, []);
 
@@ -46,10 +75,13 @@ const App: React.FC = () => {
       </div>
 
       <Switch>
-        <Route exact path="/login" component={SignIn} />
-        <PrivateRoute path="/dashboard">
-          <Dashboard />
-        </PrivateRoute>
+        {!isLoggedIn.isAuthenticated ? (
+          <Route exact path="/login" component={SignIn} />
+        ) : (
+          <PrivateRoute path="/dashboard">
+            <Dashboard />
+          </PrivateRoute>
+        )}
       </Switch>
     </div>
   );
