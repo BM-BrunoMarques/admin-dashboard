@@ -37,16 +37,16 @@ const DrawerMenu: React.FC<DrawerProps> = (props) => {
       path: "forms",
       icon: <MailIcon />,
     },
-    {
-      label: "Dashboard",
-      path: "default",
-      icon: <InboxIcon />,
-    },
-    {
-      label: "Forms",
-      path: "forms",
-      icon: <MailIcon />,
-    },
+    // {
+    //   label: "Dashboard",
+    //   path: "default",
+    //   icon: <InboxIcon />,
+    // },
+    // {
+    //   label: "Forms",
+    //   path: "forms",
+    //   icon: <MailIcon />,
+    // },
   ];
 
   const { open, handleDrawerClose, classes, url } = props;

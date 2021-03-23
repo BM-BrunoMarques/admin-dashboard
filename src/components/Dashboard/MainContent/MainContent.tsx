@@ -13,7 +13,6 @@ const MainContent: React.FC<MainContentProps> = (props) => {
   const { classes, path } = props;
 
   useEffect(() => {
-    // check for Auth
     history.push({
       pathname: `${path}/default`,
     });

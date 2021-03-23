@@ -4,8 +4,8 @@ import * as SI from "../../helpers/consts";
 
 const initialState: Array<SI.UserState> = [
   {
-    id: 1,
     authentication: {
+      id: Math.floor(Math.random() * 123456789012345),
       type: SI.UserType.ADMIN,
       email: "user@example.com",
       password: "helloworld",
@@ -23,13 +23,16 @@ export const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
-    getUser: (state, action) => {
-      // state[0].id = 12;
+    deleteUser: (state, action) => {
+      return state.filter((user) => user.authentication.id !== action.payload);
+    },
+    createUser: (state, action) => {
+      return state.concat(action.payload);
     },
   },
 });
 
-export const { getUser } = usersSlice.actions;
+export const { deleteUser } = usersSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This

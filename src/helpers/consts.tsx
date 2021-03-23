@@ -9,8 +9,8 @@ interface Name {
 }
 
 export interface UserState {
-  id: number;
   authentication: {
+    id: number;
     type: UserType;
     password: string;
     email: string;

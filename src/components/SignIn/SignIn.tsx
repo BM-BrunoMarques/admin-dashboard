@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { useAppDispatch } from "../../app/hooks";
 import { setLoggedIn } from "../../features/Authentication/authSlice";
 // import * as SI from "./SignIn.module";
@@ -21,6 +22,9 @@ import Container from "@material-ui/core/Container";
 const SignIn: React.FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+
+  const history = useHistory();
+  const location = useLocation();
 
   const validationSchema = yup.object({
     email: yup
@@ -45,7 +49,14 @@ const SignIn: React.FC = () => {
       method: "POST",
       body: JSON.stringify(data),
     })
-      .then(() => dispatch(setLoggedIn(true)))
+      .then((res) => {
+        console.log(res);
+        dispatch(setLoggedIn(true));
+        const { from }: any = location.state || {
+          from: { pathname: "/" },
+        };
+        history.replace(from);
+      })
       .catch((result) => {
         return formik.setErrors({
           [result.field]: result.errorMessage,
@@ -63,7 +74,6 @@ const SignIn: React.FC = () => {
       authenticate(values);
     },
   });
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

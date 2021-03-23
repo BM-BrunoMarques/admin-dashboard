@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import DrawerMenu from "./DrawerMenu/DrawerMenu";
 import TopBarApp from "./TopBarApp/TopBarApp";
 import MainContent from "./MainContent/MainContent";
 import { useStyles } from "./stylesDashboard";
-import {useRouteMatch } from "react-router-dom";
+import { useRouteMatch, useHistory } from "react-router-dom";
 
 const Dashboard: React.FC = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const { path, url } = useRouteMatch();
+  const history = useHistory();
+  const [redirect, setRedirect] = useState<string>(path);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -18,7 +21,13 @@ const Dashboard: React.FC = () => {
     setOpen(false);
   };
 
-  const { path, url } = useRouteMatch();
+  useEffect(() => {
+    setRedirect(`${path}/default`);
+  }, []);
+
+  useEffect(() => {
+    history.push(redirect);
+  }, [redirect]);
 
   return (
     <div className={classes.root}>

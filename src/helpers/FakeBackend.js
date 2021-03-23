@@ -1,4 +1,5 @@
 import { store } from "../app/store";
+import { createCookie, readCookie } from "./cookie.tsx";
 
 const fields = {
   email: "email",
@@ -11,6 +12,8 @@ export const configureFakeBackend = () => {
     const { method, headers } = opts;
     const body = opts.body && JSON.parse(opts.body);
 
+    console.log(url, opts, body);
+
     return new Promise((resolve, reject) => {
       setTimeout(handleRoute, 500);
       function handleRoute() {
@@ -18,6 +21,7 @@ export const configureFakeBackend = () => {
           case url.endsWith("user/authenticate") && method === "POST":
             return authenticate();
             break;
+
           default:
             return realFetch(url, opts)
               .then((response) => resolve(response))
@@ -29,35 +33,28 @@ export const configureFakeBackend = () => {
         const state = store.getState();
         const allUsers = state.users;
         const { email, password } = body;
-        return new Promise((resolve, reject) => {
-          allUsers.find((el) => {
-            const emailExists = el.authentication.email === email;
-            if (emailExists) {
-              return resolve(el.authentication.password);
-            } else {
-              return reject({
-                field: fields.email,
-                errorMessage: "Your email is not in our system.",
-              });
-            }
+
+        const userFound = allUsers.find((el) => {
+          const found = el.authentication.email === email;
+          if (found) {
+            return el.authentication.password;
+          } else {
+            return reject({
+              field: fields.email,
+              errorMessage: "Your email is not in our system.",
+            });
+          }
+        });
+
+        if (userFound && userFound.authentication.password === password) {
+          createCookie("isLoggedIn", email, 30);
+          return resolve(userFound);
+        } else {
+          return reject({
+            field: fields.password,
+            errorMessage: "Wrong Password!",
           });
-        })
-          .then((response) => {
-            if (response !== password) {
-              return reject({
-                field: fields.password,
-                errorMessage: "Wrong Password!",
-              });
-            } else {
-              return resolve(email);
-            }
-          })
-          .then((response) => {
-            return resolve(response);
-          })
-          .catch((response) => {
-            return reject(response);
-          });
+        }
       };
     });
   };
