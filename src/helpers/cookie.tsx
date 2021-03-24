@@ -22,5 +22,7 @@ export const readCookie = (name: string) => {
 };
 
 export const eraseCookie = (name: string) => {
+  console.log('callse');
+  
   createCookie(name, "", -1);
 };

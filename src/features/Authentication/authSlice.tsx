@@ -1,8 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
+import * as SI from "../../helpers/consts";
+import { initialState as importedInitialState } from "../UserManagement/usersSlice";
 
-const initialState: { isAuthenticated: boolean } = {
+const initialState: {
+  isAuthenticated: boolean;
+  user: SI.UserState;
+} = {
   isAuthenticated: false,
+  user: importedInitialState[0],
 };
 
 export const authSlice = createSlice({
@@ -12,10 +18,13 @@ export const authSlice = createSlice({
     setLoggedIn: (state, action) => {
       state.isAuthenticated = action.payload;
     },
+    setAuthUser: (state, action) => {
+      state.user = action.payload;
+    },
   },
 });
 
-export const { setLoggedIn } = authSlice.actions;
+export const { setLoggedIn, setAuthUser } = authSlice.actions;
 
 export const selectAuthenticated = (state: RootState) => state.auth;
 

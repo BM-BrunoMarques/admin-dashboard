@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import { useAppSelector } from "../app/hooks";
+import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { Route, Link, useHistory } from "react-router-dom";
 import SignIn from "./SignIn/SignIn";
 import Dashboard from "./Dashboard/Dashboard";
 import { readCookie } from "../helpers/cookie";
+import { setLoggedIn } from "../features/Authentication/authSlice";
 
 const App: React.FC = () => {
-  const auth = useAppSelector((state) => state.auth);
+  const isAuth = useAppSelector((state) => state.auth.isAuthenticated);
   const history = useHistory();
   const isLoggedIn = readCookie("isLoggedIn");
+  const dispatch = useAppDispatch();
 
   const PrivateRoute = ({ children, ...rest }: any) => {
     return (
       <Route
         {...rest}
         render={({ location }) => {
-          if (!auth.isAuthenticated && !isLoggedIn) {
+          if (!isLoggedIn) {
             history.push({
               pathname: "/login",
               state: {
@@ -32,7 +34,7 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!auth.isAuthenticated && !isLoggedIn) {
+    if (!isLoggedIn) {
       history.push({
         pathname: "/login",
       });
@@ -41,7 +43,13 @@ const App: React.FC = () => {
         pathname: "/dashboard",
       });
     }
-  }, [auth]);
+  }, [isAuth]);
+
+  useEffect(() => {
+    if (Boolean(isLoggedIn) !== isAuth) {
+      dispatch(setLoggedIn(Boolean(isLoggedIn)));
+    }
+  }, []);
 
   return (
     <div className="App">
@@ -50,9 +58,11 @@ const App: React.FC = () => {
       </div>
 
       <Route exact path="/login" component={SignIn} />
-      <PrivateRoute path="/dashboard">
-        <Dashboard />
-      </PrivateRoute>
+      {isAuth && (
+        <PrivateRoute path="/dashboard">
+          <Dashboard />
+        </PrivateRoute>
+      )}
       <PrivateRoute path="dashboard" component={Dashboard} />
     </div>
   );

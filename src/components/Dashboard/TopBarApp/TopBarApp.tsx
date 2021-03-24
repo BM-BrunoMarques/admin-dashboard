@@ -5,6 +5,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
+import Button from "@material-ui/core/Button";
+import { useAppDispatch } from "../../../app/hooks";
+import { setLoggedIn } from "../../../features/Authentication/authSlice";
+import "./topBar.css";
+import { eraseCookie } from "../../../helpers/cookie";
 
 interface TopBarProps {
   handleDrawerOpen: any;
@@ -14,6 +20,12 @@ interface TopBarProps {
 
 const TopBarApp: React.FC<TopBarProps> = (props) => {
   const { open, handleDrawerOpen, classes } = props;
+  const dispatch = useAppDispatch();
+
+  const handleLogOut = () => {
+    eraseCookie("isLoggedIn");
+    dispatch(setLoggedIn(false));
+  };
 
   return (
     <AppBar
@@ -37,6 +49,12 @@ const TopBarApp: React.FC<TopBarProps> = (props) => {
         <Typography variant="h6" noWrap>
           Mini variant drawer
         </Typography>
+        <Button
+          color="default"
+          variant="contained"
+          startIcon={<PowerSettingsNewIcon />}
+          onClick={() => handleLogOut()}
+        ></Button>
       </Toolbar>
     </AppBar>
   );

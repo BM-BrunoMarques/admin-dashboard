@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "../../app/store";
 import * as SI from "../../helpers/consts";
 
-const initialState: Array<SI.UserState> = [
+export const initialState: Array<SI.UserState> = [
   {
     authentication: {
       id: Math.floor(Math.random() * 123456789012345),
@@ -14,6 +14,20 @@ const initialState: Array<SI.UserState> = [
       name: {
         firstName: "John",
         lastName: "Doe",
+      },
+    },
+  },
+  {
+    authentication: {
+      id: Math.floor(Math.random() * 123456789012345),
+      type: SI.UserType.USER,
+      email: "user2@example.com",
+      password: "helloworld",
+    },
+    info: {
+      name: {
+        firstName: "Ana",
+        lastName: "Marques",
       },
     },
   },

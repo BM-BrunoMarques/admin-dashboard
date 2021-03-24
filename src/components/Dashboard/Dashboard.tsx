@@ -22,6 +22,8 @@ const Dashboard: React.FC = () => {
   };
 
   useEffect(() => {
+    console.log("here");
+
     setRedirect(`${path}/default`);
   }, []);
 

@@ -1,7 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useAppDispatch } from "../../app/hooks";
-import { setLoggedIn } from "../../features/Authentication/authSlice";
+import {
+  setLoggedIn,
+  setAuthUser,
+} from "../../features/Authentication/authSlice";
 // import * as SI from "./SignIn.module";
 import { useStyles } from "./stylesSignIn";
 import { useFormik } from "formik";
@@ -50,7 +53,7 @@ const SignIn: React.FC = () => {
       body: JSON.stringify(data),
     })
       .then((res) => {
-        console.log(res);
+        dispatch(setAuthUser(res));
         dispatch(setLoggedIn(true));
         const { from }: any = location.state || {
           from: { pathname: "/" },

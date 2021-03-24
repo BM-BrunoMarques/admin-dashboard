@@ -1,9 +1,20 @@
 import { store } from "../app/store";
-import { createCookie, readCookie } from "./cookie.tsx";
+import { createCookie } from "./cookie.tsx";
 
 const fields = {
   email: "email",
   password: "password",
+};
+
+const errors = {
+  emailMissing: {
+    field: fields.email,
+    errorMessage: "Your email is not in our system.",
+  },
+  wrongPassword: {
+    field: fields.password,
+    errorMessage: "Wrong Password!",
+  },
 };
 
 export const configureFakeBackend = () => {
@@ -33,27 +44,25 @@ export const configureFakeBackend = () => {
         const state = store.getState();
         const allUsers = state.users;
         const { email, password } = body;
-
-        const userFound = allUsers.find((el) => {
+        if (!allUsers.length) {
+          return reject({ ...errors.emailMissing });
+        }
+        const userFound = allUsers.find((el, ind) => {
           const found = el.authentication.email === email;
           if (found) {
             return el.authentication.password;
-          } else {
-            return reject({
-              field: fields.email,
-              errorMessage: "Your email is not in our system.",
-            });
+          }
+          if (!found && ind === allUsers.length) {
+            return reject({ ...errors.emailMissing });
           }
         });
 
         if (userFound && userFound.authentication.password === password) {
           createCookie("isLoggedIn", email, 30);
+
           return resolve(userFound);
         } else {
-          return reject({
-            field: fields.password,
-            errorMessage: "Wrong Password!",
-          });
+          return reject({ ...errors.wrongPassword });
         }
       };
     });
