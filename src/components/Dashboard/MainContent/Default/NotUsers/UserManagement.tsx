@@ -54,13 +54,13 @@ const UserManagement: React.FC = () => {
     <>
       <div className={classes.root}>
         <Grid item xs={12} md={6} style={{ position: "relative" }}>
-          <div className="cardContainer">
+          <div className={classes.cardContainer}>
             {!flipped ? (
               <>
                 <motion.div
                   animate={{ x: 100 }}
                   transition={{ ease: "easeOut", duration: 0.5 }}
-                  className={`${classes.demo} cardFront`}
+                  className={`${classes.demo} ${classes.cardFront}`}
                 >
                   <List>
                     {allUsers.map((user) => {

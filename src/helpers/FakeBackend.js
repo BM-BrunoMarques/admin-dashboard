@@ -44,26 +44,19 @@ export const configureFakeBackend = () => {
         const state = store.getState();
         const allUsers = state.users;
         const { email, password } = body;
-        if (!allUsers.length) {
+
+        const userFound = allUsers.find((el) => {
+          return el.authentication.email === email;
+        });
+        if (!userFound || !allUsers.length) {
           return reject({ ...errors.emailMissing });
         }
-        const userFound = allUsers.find((el, ind) => {
-          const found = el.authentication.email === email;
-          if (found) {
-            return el.authentication.password;
-          }
-          if (!found && ind === allUsers.length) {
-            return reject({ ...errors.emailMissing });
-          }
-        });
-
-        if (userFound && userFound.authentication.password === password) {
-          createCookie("isLoggedIn", email, 30);
-
-          return resolve(userFound);
-        } else {
+        if (userFound.authentication.password !== password) {
           return reject({ ...errors.wrongPassword });
         }
+
+        createCookie("isLoggedIn", email, 30);
+        return resolve(userFound);
       };
     });
   };

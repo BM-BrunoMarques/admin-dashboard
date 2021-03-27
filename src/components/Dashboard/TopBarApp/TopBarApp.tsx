@@ -49,6 +49,7 @@ const TopBarApp: React.FC<TopBarProps> = (props) => {
         <Typography variant="h6" noWrap>
           Mini variant drawer
         </Typography>
+
         <Button
           color="default"
           variant="contained"
