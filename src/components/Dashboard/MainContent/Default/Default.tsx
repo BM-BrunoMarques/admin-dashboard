@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 // import UserManagement from "./Users/UserManagement";
 import Grid, { GridSpacing } from "@material-ui/core/Grid";
 import PrivateUserRoute from "../PrivateUserRoute/PrivateUserRoute";
 import RenderCard from "./RenderCard/RenderCard";
-import { Line, Doughnut } from "react-chartjs-2";
+import { Chart } from "chart.js";
+import { Line, Doughnut, Bar } from "react-chartjs-2";
+import { makeStyles } from "@material-ui/core/styles";
+
+export const useStyles = makeStyles({
+  container: {
+    padding: "20px 17px",
+    boxShadow:
+      "rgb(50 50 93 / 3%) 0px 2px 5px -1px, rgb(0 0 0 / 5%) 0px 1px 3px -1px",
+    borderRadius: "6px",
+    backgroundColor: "#FFF",
+  },
+});
 
 interface data {
   title: string;
@@ -13,7 +25,7 @@ interface data {
   timePeriod: string;
 }
 
-const data: data[] = [
+const cardData: data[] = [
   {
     title: "Sales Today",
     tag: "Today",
@@ -52,10 +64,6 @@ const chartData = {
       lineTension: 0.1,
       backgroundColor: "rgba(75,192,192,0.4)",
       borderColor: "rgba(75,192,192,1)",
-      borderCapStyle: "butt",
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: "miter",
       pointBorderColor: "rgba(75,192,192,1)",
       pointBackgroundColor: "#fff",
       pointBorderWidth: 1,
@@ -73,10 +81,6 @@ const chartData = {
       lineTension: 0.1,
       backgroundColor: "rgba(75,82,192,0.4)",
       borderColor: "rgba(75,90,112,1)",
-      borderCapStyle: "butt",
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: "miter",
       pointBorderColor: "rgba(75,192,192,1)",
       pointBackgroundColor: "#fff",
       pointBorderWidth: 1,
@@ -103,35 +107,63 @@ const doughnutData = {
 };
 
 const Default: React.FC = () => {
+  const [gridHeight, setGridSize] = useState<number>();
+  const cardsGridRef = useRef<HTMLDivElement>(null);
+  const classes = useStyles();
+
+  useEffect(() => {
+    setGridSize(cardsGridRef!.current!.offsetHeight - 8);
+  }, [cardsGridRef]);
+
   return (
     <>
-      <Grid container spacing={1}>
-        {data.map((card) => (
-          <Grid item key={card.title} xs={12} md={3}>
-            <RenderCard data={card} />
+      <>
+        <Grid container spacing={1}>
+          <Grid ref={cardsGridRef} item xs={12} lg={5} component={"div"}>
+            <Grid container spacing={1}>
+              {cardData.map((card) => (
+                <Grid item key={card.title} xs={12} sm={6}>
+                  <RenderCard data={card} />
+                </Grid>
+              ))}
+            </Grid>
           </Grid>
-        ))}
-        {/* <Line data={chartData} width={100} height={50}  options={{ maintainAspectRatio: false }}/> */}
-      </Grid>
+          <Grid
+            className={classes.container}
+            style={{
+              position: "relative",
+              margin: " auto",
+              width: "77vw",
+              maxHeight:'400px',
+              height: gridHeight,
+            }}
+            item
+            xs={12}
+            lg={7}
+          >
+            <Bar data={chartData} options={{ maintainAspectRatio: false }} />
+          </Grid>
+        </Grid>
 
-      <Grid container spacing={1}>
-        <Grid
-          item
-          md={7}
-          xs={12}
-          style={{ position: "relative", margin: " auto", width: "77vw" }}
-        >
-          <Line data={chartData} />
+        <Grid container spacing={1}>
+          <Grid
+            item
+            md={7}
+            xs={12}
+            style={{ position: "relative", margin: " auto", width: "77vw" }}
+          >
+            <Line data={chartData} />
+          </Grid>
+          <Grid
+            item
+            md={5}
+            xs={12}
+            style={{ position: "relative", margin: " auto", width: "77vw" }}
+          >
+            <Doughnut data={doughnutData} />
+          </Grid>
         </Grid>
-        <Grid
-          item
-          md={5}
-          xs={12}
-          style={{ position: "relative", margin: " auto", width: "77vw" }}
-        >
-          <Doughnut data={doughnutData} />
-        </Grid>
-      </Grid>
+      </>
     </>
   );
 };
