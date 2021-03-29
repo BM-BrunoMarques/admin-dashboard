@@ -6,6 +6,13 @@ import RenderCard from "./RenderCard/RenderCard";
 import { Chart } from "chart.js";
 import { Line, Doughnut, Bar } from "react-chartjs-2";
 import { makeStyles } from "@material-ui/core/styles";
+import OrdersTable from "./OrdersTable/OrdersTable";
+
+//maps
+import { ComposableMap, Geographies, Geography } from "react-simple-maps";
+
+const geoUrl =
+  "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
 export const useStyles = makeStyles({
   container: {
@@ -106,7 +113,7 @@ const doughnutData = {
   ],
 };
 
-const Default: React.FC = () => {
+const Default: React.FC = (props) => {
   const [gridHeight, setGridSize] = useState<number>();
   const cardsGridRef = useRef<HTMLDivElement>(null);
   const classes = useStyles();
@@ -117,53 +124,48 @@ const Default: React.FC = () => {
 
   return (
     <>
-      <>
-        <Grid container spacing={1}>
-          <Grid ref={cardsGridRef} item xs={12} lg={5} component={"div"}>
-            <Grid container spacing={1}>
-              {cardData.map((card) => (
-                <Grid item key={card.title} xs={12} sm={6}>
-                  <RenderCard data={card} />
-                </Grid>
-              ))}
-            </Grid>
-          </Grid>
-          <Grid
-            className={classes.container}
-            style={{
-              position: "relative",
-              margin: " auto",
-              width: "77vw",
-              maxHeight:'400px',
-              height: gridHeight,
-            }}
-            item
-            xs={12}
-            lg={7}
-          >
-            <Bar data={chartData} options={{ maintainAspectRatio: false }} />
+      <Grid container spacing={1}>
+        <Grid ref={cardsGridRef} item xs={12} lg={5} component={"div"}>
+          <Grid container spacing={1}>
+            {cardData.map((card) => (
+              <Grid item key={card.title} xs={12} sm={6}>
+                <RenderCard data={card} />
+              </Grid>
+            ))}
           </Grid>
         </Grid>
-
-        <Grid container spacing={1}>
-          <Grid
-            item
-            md={7}
-            xs={12}
-            style={{ position: "relative", margin: " auto", width: "77vw" }}
-          >
-            <Line data={chartData} />
-          </Grid>
-          <Grid
-            item
-            md={5}
-            xs={12}
-            style={{ position: "relative", margin: " auto", width: "77vw" }}
-          >
-            <Doughnut data={doughnutData} />
-          </Grid>
+        <Grid
+          className={classes.container}
+          style={{
+            position: "relative",
+            margin: " auto",
+            width: "77vw",
+            maxHeight: "400px",
+            height: gridHeight,
+          }}
+          item
+          xs={12}
+          lg={7}
+        >
+          <Bar data={chartData} options={{ maintainAspectRatio: false }} />
         </Grid>
-      </>
+      </Grid>
+      <Grid container spacing={1}>
+        <Grid item xs={12} lg={5} component={"div"}>
+          <ComposableMap>
+            <Geographies geography={geoUrl}>
+              {({ geographies }) =>
+                geographies.map((geo) => (
+                  <Geography key={geo.rsmKey} geography={geo} />
+                ))
+              }
+            </Geographies>
+          </ComposableMap>
+        </Grid>
+        <Grid item lg={7} xs={12} className={classes.container}>
+          <OrdersTable />
+        </Grid>
+      </Grid>
     </>
   );
 };

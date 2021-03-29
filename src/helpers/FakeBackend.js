@@ -17,16 +17,35 @@ const errors = {
   },
 };
 
+const timeForFetch = (url, method) => {
+  switch (true) {
+    case url.endsWith("user/authenticate") && method === "POST":
+      return true;
+      break;
+    default:
+      return false;
+      break;
+  }
+};
+
 export const configureFakeBackend = () => {
   let realFetch = window.fetch;
   window.fetch = function (url, opts) {
-    const { method, headers } = opts;
-    const body = opts.body && JSON.parse(opts.body);
+    let body;
+    const { method, headers } = opts || { method: "", headers: "" };
+    if (opts) {
+      body = opts.body && JSON.parse(opts.body);
+    }
 
-    console.log(url, opts, body);
+    const fakeFetch = timeForFetch(url, method);
 
     return new Promise((resolve, reject) => {
-      setTimeout(handleRoute, 500);
+      if (fakeFetch) {
+        setTimeout(handleRoute, 500);
+      } else {
+        handleRoute();
+      }
+
       function handleRoute() {
         switch (true) {
           case url.endsWith("user/authenticate") && method === "POST":
