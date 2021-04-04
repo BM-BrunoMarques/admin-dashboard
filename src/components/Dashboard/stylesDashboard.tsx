@@ -59,6 +59,7 @@ export const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
   },
   content: {
+    width: `calc(100% - ${drawerWidth}px)`,
     flexGrow: 1,
     padding: theme.spacing(3),
   },

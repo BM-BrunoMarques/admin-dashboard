@@ -9,8 +9,10 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
+  paper: {
+    width: "100%",
+    overflowX: "auto",
+    maxHeight: "200px",
   },
 });
 
@@ -73,7 +75,7 @@ const OrdersTable: React.FC = () => {
 
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
+      <Table aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell align="right">Id</TableCell>

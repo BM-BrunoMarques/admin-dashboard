@@ -1,6 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 // import UserManagement from "./Users/UserManagement";
 import Grid, { GridSpacing } from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+
+//
+import MasonryWrap from "../MasonryWrap/MasonryWrap";
+//
 import PrivateUserRoute from "../PrivateUserRoute/PrivateUserRoute";
 import RenderCard from "./RenderCard/RenderCard";
 import { Chart } from "chart.js";
@@ -9,7 +14,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import OrdersTable from "./OrdersTable/OrdersTable";
 
 //maps
-import { ComposableMap, Geographies, Geography } from "react-simple-maps";
+import {
+  ComposableMap,
+  Geographies,
+  Geography,
+  Marker,
+} from "react-simple-maps";
 
 const geoUrl =
   "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
@@ -125,6 +135,49 @@ const Default: React.FC = (props) => {
   return (
     <>
       <Grid container spacing={1}>
+        <Grid item xs={12} md={7} ref={cardsGridRef}>
+          <Grid container spacing={1}>
+            {cardData.map((card) => (
+              <Grid item key={card.title} xs={12} sm={6}>
+                <RenderCard data={card} />
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+
+        <Grid xs={12} md={5} item style={{ height: gridHeight }}>
+          <Bar data={chartData} options={{ maintainAspectRatio: false }} />
+        </Grid>
+
+        <Grid item xs={12} md={5}>
+          <ComposableMap>
+            <Geographies geography={geoUrl} fill="#BBB" stroke="#FFF">
+              {({ geographies }) =>
+                geographies.map((geo) => (
+                  <Geography key={geo.rsmKey} geography={geo} />
+                ))
+              }
+            </Geographies>
+            <Marker coordinates={[-74.006, 40.7128]}>
+              <circle r={8} fill="#F53" />
+            </Marker>
+          </ComposableMap>
+        </Grid>
+
+        <Grid xs={12} md={7}>
+          <OrdersTable />
+        </Grid>
+      </Grid>
+    </>
+  );
+};
+
+export default Default;
+
+{
+  /*
+  MasonryWrap
+  <Grid container spacing={1}>
         <Grid ref={cardsGridRef} item xs={12} lg={5} component={"div"}>
           <Grid container spacing={1}>
             {cardData.map((card) => (
@@ -151,23 +204,45 @@ const Default: React.FC = (props) => {
         </Grid>
       </Grid>
       <Grid container spacing={1}>
-        <Grid item xs={12} lg={5} component={"div"}>
-          <ComposableMap>
-            <Geographies geography={geoUrl}>
-              {({ geographies }) =>
-                geographies.map((geo) => (
-                  <Geography key={geo.rsmKey} geography={geo} />
-                ))
-              }
-            </Geographies>
-          </ComposableMap>
-        </Grid>
-        <Grid item lg={7} xs={12} className={classes.container}>
-          <OrdersTable />
-        </Grid>
-      </Grid>
-    </>
-  );
-};
+        <BreakpointMasonry>
+          <Grid item xs={12} lg={5} component={"div"}>
+            <ComposableMap>
+              <Geographies geography={geoUrl} fill="#BBB" stroke="#FFF">
+                {({ geographies }) =>
+                  geographies.map((geo) => (
+                    <Geography key={geo.rsmKey} geography={geo} />
+                  ))
+                }
+              </Geographies>
+              <Marker coordinates={[-74.006, 40.7128]}>
+                <circle r={8} fill="#F53" />
+              </Marker>
+            </ComposableMap>
+          </Grid>
 
-export default Default;
+          <Grid item lg={7} xs={12} className={classes.container}>
+            <OrdersTable />
+          </Grid>
+        </BreakpointMasonry>
+        <BreakpointMasonry>
+          <Grid item xs={12} lg={5} className={classes.container}>
+            <OrdersTable />
+          </Grid>
+
+          <Grid item xs={12} lg={7} component={"div"}>
+            <ComposableMap>
+              <Geographies geography={geoUrl} fill="#BBB" stroke="#FFF">
+                {({ geographies }) =>
+                  geographies.map((geo) => (
+                    <Geography key={geo.rsmKey} geography={geo} />
+                  ))
+                }
+              </Geographies>
+              <Marker coordinates={[-74.006, 40.7128]}>
+                <circle r={8} fill="#F53" />
+              </Marker>
+            </ComposableMap>
+          </Grid>
+        </BreakpointMasonry>
+      </Grid>*/
+}
