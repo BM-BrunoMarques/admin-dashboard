@@ -6,6 +6,21 @@ import MainContent from "./MainContent/MainContent";
 import { useStyles } from "./stylesDashboard";
 import { useRouteMatch, useHistory } from "react-router-dom";
 
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+
+const theme = createMuiTheme({
+  overrides: {
+    MuiTableCell: {
+      footer: {
+        left: 0,
+        bottom: '0',
+        zIndex: 2,
+        position: "sticky",
+      },
+    },
+  },
+});
+
 const Dashboard: React.FC = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -48,7 +63,9 @@ const Dashboard: React.FC = () => {
         url={url}
       />
 
-      <MainContent path={path} classes={classes} />
+      <ThemeProvider theme={theme}>
+        <MainContent path={path} classes={classes} />
+      </ThemeProvider>
     </div>
   );
 };

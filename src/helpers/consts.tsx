@@ -19,3 +19,22 @@ export interface UserState {
     name?: Name;
   };
 }
+
+export interface rowStruct {
+  id: string;
+  name: string;
+  date: string;
+  country:string,
+  address:string,
+  total: number;
+  status: string;
+}
+
+export interface Markers {
+  country: string;
+  total: number;
+  geoLocation: {
+    lat: number;
+    long: number;
+  };
+}
