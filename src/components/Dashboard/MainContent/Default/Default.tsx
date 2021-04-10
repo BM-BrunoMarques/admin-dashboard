@@ -6,13 +6,13 @@ import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 //
-import PrivateUserRoute from "../PrivateUserRoute/PrivateUserRoute";
+import PrivateUserRoute from "../resources/PrivateUserRoute/PrivateUserRoute";
 import RenderCard from "./RenderCard/RenderCard";
 import { Chart } from "chart.js";
 import { Line, Doughnut, Bar } from "react-chartjs-2";
 import { makeStyles } from "@material-ui/core/styles";
 import OrdersTable from "./OrdersTable/OrdersTable";
-import { rowStruct, Markers } from "../../../../helpers/consts";
+import * as SI from "../../../../helpers/consts";
 
 import OrdersMap from "./OrdersMap/OrdersMap";
 
@@ -115,10 +115,10 @@ const doughnutData = {
   ],
 };
 
-const Default: React.FC = (props) => {
+const Default: React.FC = () => {
   const theme = useTheme();
-  const [rowsSliced, setRowsSliced] = useState<rowStruct[]>([]);
-  const [Markers, setMarkers] = useState<Markers[]>([]);
+  const [rowsSliced, setRowsSliced] = useState<SI.OrderState[]>([]);
+  const [Markers, setMarkers] = useState<SI.Markers[]>([]);
 
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const [gridHeight, setGridSize] = useState<number>();
@@ -132,7 +132,7 @@ const Default: React.FC = (props) => {
 
   return (
     <>
-      <Grid container spacing={1}>
+      <Grid container spacing={isSmall ? 3 : 2}>
         <Grid item xs={12} md={7}>
           <Grid container spacing={1} ref={cardsGridRef}>
             {cardData.map((card) => (
@@ -152,20 +152,25 @@ const Default: React.FC = (props) => {
           <Bar data={chartData} options={{ maintainAspectRatio: false }} />
         </Grid>
 
-        <Grid container alignItems="center" spacing={isSmall ? 1 : 5}>
-          <Grid item xs={12} lg={5}>
+        <Grid
+          container
+          spacing={isSmall ? 3 : 4}
+          alignItems="center"
+          justify="center"
+        >
+          <Grid item xs={12} lg={6}>
             <OrdersMap
               rowsSliced={rowsSliced}
               setMarkers={setMarkers}
               Markers={Markers}
             />
           </Grid>
-
-          <Grid item xs={12} lg={7}>
+          <Grid item xs={12} lg={5}>
             <OrdersTable
               rowsSliced={rowsSliced}
               setRowsSliced={setRowsSliced}
               setMarkers={setMarkers}
+              enhanced={false}
             />
           </Grid>
         </Grid>

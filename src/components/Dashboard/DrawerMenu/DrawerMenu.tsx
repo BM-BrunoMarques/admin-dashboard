@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import clsx from "clsx";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import { useTheme } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 //icons
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -21,10 +22,14 @@ interface DrawerProps {
   open: boolean;
   classes: any;
   url: string;
+  setCurrentUrl: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const DrawerMenu: React.FC<DrawerProps> = (props) => {
   const theme = useTheme();
+  const history = useHistory();
+
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   const dashboardLinks = [
     {
@@ -33,23 +38,19 @@ const DrawerMenu: React.FC<DrawerProps> = (props) => {
       icon: <InboxIcon />,
     },
     {
-      label: "Forms",
-      path: "forms",
+      label: "Orders",
+      path: "orders",
       icon: <MailIcon />,
     },
-    // {
-    //   label: "Dashboard",
-    //   path: "default",
-    //   icon: <InboxIcon />,
-    // },
-    // {
-    //   label: "Forms",
-    //   path: "forms",
-    //   icon: <MailIcon />,
-    // },
   ];
 
-  const { open, handleDrawerClose, classes, url } = props;
+  const handleLinkClick = (e: React.MouseEvent<HTMLElement>, path: string) => {
+    e.preventDefault();
+    setCurrentUrl(path);
+    history.push(`${url}/${path}`);
+  };
+
+  const { open, handleDrawerClose, classes, url, setCurrentUrl } = props;
   return (
     <Drawer
       variant="permanent"
@@ -62,6 +63,10 @@ const DrawerMenu: React.FC<DrawerProps> = (props) => {
           [classes.drawerOpen]: open,
           [classes.drawerClose]: !open,
         }),
+      }}
+      style={{
+        width: isSmall && !open ? "0" : "",
+        opacity: isSmall && !open ? "0" : "1",
       }}
     >
       <div className={classes.toolbar}>
@@ -78,7 +83,11 @@ const DrawerMenu: React.FC<DrawerProps> = (props) => {
         {dashboardLinks.map((link, index) => {
           const { label, path, icon } = link;
           return (
-            <Link key={path} to={`${url}/${path}`}>
+            <Link
+              onClick={(e) => handleLinkClick(e, path)}
+              key={path}
+              to={`${url}/${path}`}
+            >
               <ListItem button key={label}>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={label} />

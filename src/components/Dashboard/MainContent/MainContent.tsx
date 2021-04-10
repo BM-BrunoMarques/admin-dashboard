@@ -1,29 +1,29 @@
 import React, { useEffect } from "react";
-import { Route, Switch, useHistory } from "react-router-dom";
 import Default from "./Default/Default";
-import Forms from "./Forms/Forms";
+import { Route, Switch, useHistory } from "react-router-dom";
+import OrdersManagement from "./OrdersManagement/OrdersManagement";
 
 interface MainContentProps {
   classes: any;
   path: string;
+  sessionSKey: string;
+  currentUrl: string;
+  setCurrentUrl: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const MainContent: React.FC<MainContentProps> = (props) => {
-  const history = useHistory();
-  const { classes, path } = props;
+  const { classes, path, setCurrentUrl } = props;
 
-  useEffect(() => {
-    history.push({
-      pathname: `${path}/default`,
-    });
-  }, []);
+  const handleUrlOnRouting = (path: string) => {
+    setCurrentUrl(path);
+  };
 
   return (
     <main className={classes.content}>
       <div className={classes.toolbar} />
       <Switch>
         <Route exact path={`${path}/default`} component={Default} />
-        <Route exact path={`${path}/forms`} component={Forms} />
+        <Route exact path={`${path}/orders`} component={OrdersManagement} />
       </Switch>
     </main>
   );

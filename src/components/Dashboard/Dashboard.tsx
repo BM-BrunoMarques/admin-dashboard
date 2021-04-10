@@ -13,7 +13,7 @@ const theme = createMuiTheme({
     MuiTableCell: {
       footer: {
         left: 0,
-        bottom: '0',
+        bottom: "0",
         zIndex: 2,
         position: "sticky",
       },
@@ -21,12 +21,31 @@ const theme = createMuiTheme({
   },
 });
 
+const sessionSKey = "currentPageUrl";
+
 const Dashboard: React.FC = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const { path, url } = useRouteMatch();
   const history = useHistory();
   const [redirect, setRedirect] = useState<string>(path);
+  const [currentUrl, setCurrentUrl] = useState<string>("");
+
+  useEffect(() => {
+    if (currentUrl) {
+      sessionStorage.setItem(sessionSKey, currentUrl);
+    }
+  }, [currentUrl]);
+
+  useEffect(() => {
+    const pageToRedirect = sessionStorage.getItem(sessionSKey) || "default";
+
+    setRedirect(`${path}/${pageToRedirect}`);
+  }, []);
+
+  useEffect(() => {
+    history.push(redirect);
+  }, [redirect]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -35,16 +54,6 @@ const Dashboard: React.FC = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-  useEffect(() => {
-    console.log("here");
-
-    setRedirect(`${path}/default`);
-  }, []);
-
-  useEffect(() => {
-    history.push(redirect);
-  }, [redirect]);
 
   return (
     <div className={classes.root}>
@@ -61,10 +70,17 @@ const Dashboard: React.FC = () => {
         open={open}
         classes={classes}
         url={url}
+        setCurrentUrl={setCurrentUrl}
       />
 
       <ThemeProvider theme={theme}>
-        <MainContent path={path} classes={classes} />
+        <MainContent
+          path={path}
+          classes={classes}
+          sessionSKey={sessionSKey}
+          setCurrentUrl={setCurrentUrl}
+          currentUrl={currentUrl}
+        />
       </ThemeProvider>
     </div>
   );

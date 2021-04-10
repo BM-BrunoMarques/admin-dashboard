@@ -15,6 +15,7 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-redux": "^7.1.7",
     "chart.js": "^2.9.4",
+    "d3-geo-projection": "^3.0.0",
     "formik": "^2.2.6",
     "framer-motion": "^4.0.2",
     "react": "^17.0.1",
@@ -25,6 +26,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-simple-maps": "^2.3.0",
+    "react-tooltip": "^4.2.17",
     "typescript": "~3.8.2",
     "yup": "^0.32.9"
   },

@@ -1,7 +1,7 @@
 import React from "react";
-import { useAppSelector } from "../../../../app/hooks";
+import { useAppSelector } from "../../../../../app/hooks";
 import { Route } from "react-router-dom";
-import * as SI from "../../../../helpers/consts";
+import * as SI from "../../../../../helpers/consts";
 
 interface PrivateRouteProps {
   children: any;

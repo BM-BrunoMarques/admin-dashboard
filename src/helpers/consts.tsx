@@ -20,12 +20,12 @@ export interface UserState {
   };
 }
 
-export interface rowStruct {
-  id: string;
+export interface OrderState {
+  id: number;
   name: string;
   date: string;
-  country:string,
-  address:string,
+  address: string;
+  country: string;
   total: number;
   status: string;
 }
