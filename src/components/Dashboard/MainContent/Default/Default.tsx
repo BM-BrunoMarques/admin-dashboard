@@ -171,6 +171,7 @@ const Default: React.FC = () => {
               setRowsSliced={setRowsSliced}
               setMarkers={setMarkers}
               enhanced={false}
+              parent="dashboard"
             />
           </Grid>
         </Grid>

@@ -40,6 +40,7 @@ const OrdersManagement: React.FC = (props) => {
           enhanced={true}
           selected={selected}
           setSelected={setSelected}
+          parent='ordersManagement'
         />
         {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
       </ThemeProvider>
