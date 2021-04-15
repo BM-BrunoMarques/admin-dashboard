@@ -16,7 +16,7 @@ const geoUrl =
   "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
 
 interface OrdersMapProps {
-  rowsSliced: SI.OrderState[];
+  visibleRows: SI.OrderState[];
   Markers: SI.Markers[];
   setMarkers: React.Dispatch<React.SetStateAction<SI.Markers[]>>;
 }
@@ -32,14 +32,13 @@ const groupObjsBy = (data: object[], key: string) => {
 };
 
 const OrdersMap: React.FC<OrdersMapProps> = (props) => {
-  const { rowsSliced, Markers, setMarkers } = props;
+  const { visibleRows, Markers, setMarkers } = props;
   const [GroupedOrders, setGroupOrders] = useState<any>(null);
   const [toolTip, setToolTip] = useState<string>("");
 
   const populateMarkers = async (key: string, tryNum = 0) => {
     forwardLocation(key)
       .then((res) => {
-        console.log(res);
         if (res.latitude && res.longitude) {
           setMarkers((prevMarkers) =>
             prevMarkers.concat({
@@ -59,15 +58,16 @@ const OrdersMap: React.FC<OrdersMapProps> = (props) => {
   };
 
   useEffect(() => {
-    if (rowsSliced.length) {
-      setGroupOrders(groupObjsBy(rowsSliced, "country"));
+    if (visibleRows.length) {
+      setGroupOrders(groupObjsBy(visibleRows, "country"));
     }
-  }, [rowsSliced]);
+  }, [visibleRows]);
 
   useEffect(() => {
     (async () => {
       if (GroupedOrders) {
         const keys = Object.keys(GroupedOrders);
+        setMarkers([]);
         for (const key of keys) {
           //disabled for saving api resources
           // await populateMarkers(key);

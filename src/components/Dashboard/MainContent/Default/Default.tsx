@@ -1,17 +1,17 @@
 import React, { useState, useRef, useEffect, useReducer } from "react";
-// import UserManagement from "./Users/UserManagement";
-import Grid, { GridSpacing } from "@material-ui/core/Grid";
+import Grid from "@material-ui/core/Grid";
+import { orderColumns } from "../shared/TableRender/orderColumns/orderColumns";
 
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
-//
-import PrivateUserRoute from "../resources/PrivateUserRoute/PrivateUserRoute";
+import { useAppSelector } from "../../../../app/hooks";
+
 import RenderCard from "./RenderCard/RenderCard";
 import { Chart } from "chart.js";
-import { Line, Doughnut, Bar } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import { makeStyles } from "@material-ui/core/styles";
-import OrdersTable from "./OrdersTable/OrdersTable";
+import TableRender from "../shared/TableRender/TableRender";
 import * as SI from "../../../../helpers/consts";
 
 import OrdersMap from "./OrdersMap/OrdersMap";
@@ -117,19 +117,22 @@ const doughnutData = {
 
 const Default: React.FC = () => {
   const theme = useTheme();
+  const columns = orderColumns(false);
+  const allOrders = useAppSelector((state) => state.orders);
   const [rowsSliced, setRowsSliced] = useState<SI.OrderState[]>([]);
   const [Markers, setMarkers] = useState<SI.Markers[]>([]);
-
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const [gridHeight, setGridSize] = useState<number>();
   const cardsGridRef = useRef<HTMLDivElement>(null);
-  const classes = useStyles();
+  const [visibleRows, setVisibleRows] = useState<SI.OrderState[]>([]);
 
-  //change
   useEffect(() => {
     setGridSize(cardsGridRef!.current!.offsetHeight - 8);
   }, [cardsGridRef]);
 
+  useEffect(() => {
+    console.log("rowsChanged", visibleRows);
+  }, [visibleRows]);
   return (
     <>
       <Grid container spacing={isSmall ? 3 : 2}>
@@ -160,16 +163,16 @@ const Default: React.FC = () => {
         >
           <Grid item xs={12} lg={6}>
             <OrdersMap
-              rowsSliced={rowsSliced}
+              visibleRows={visibleRows}
               setMarkers={setMarkers}
               Markers={Markers}
             />
           </Grid>
           <Grid item xs={12} lg={5}>
-            <OrdersTable
-              rowsSliced={rowsSliced}
-              setRowsSliced={setRowsSliced}
-              setMarkers={setMarkers}
+            <TableRender
+              rows={allOrders}
+              columns={columns}
+              setVisibleRows={setVisibleRows}
               enhanced={false}
               parent="dashboard"
             />
