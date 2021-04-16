@@ -87,16 +87,21 @@ export const initialState: Array<SI.OrderState> = [
 ];
 
 export const ordersSlice = createSlice({
-  name: "users",
+  name: "orders",
   initialState,
   reducers: {
     createOrder: (state, action) => {
       state.unshift(action.payload);
     },
+    deleteOrders: (state, action) => {
+      action.payload.map((o: number) => {
+        state = state.filter((order) => action.payload.includes(order.id));
+      });
+    },
   },
 });
 
-export const { createOrder } = ordersSlice.actions;
+export const { createOrder, deleteOrders } = ordersSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This

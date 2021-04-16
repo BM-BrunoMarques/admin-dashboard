@@ -17,6 +17,7 @@ type BaseProps = {
 
 type EnhancedProps = {
   enhanced: true;
+  handleDeleteUsers: (id: SI.deleteProps) => void;
   setVisibleRows?: never;
   selected: string[];
   setSelected: React.Dispatch<React.SetStateAction<string[]>>;
@@ -33,10 +34,17 @@ type OrderTableProps = BaseProps & (EnhancedProps | UnenhancedProps);
 
 const TableRender: React.FC<OrderTableProps> = (props) => {
   const { enhanced, parent, rows, columns } = props;
+  const [TableRows, SetTableRows] = useState<SI.OrderState[]>([]);
   const setVisibleRows = props.setVisibleRows;
 
+  useEffect(() => {
+    console.log("rows", rows, "tableRows ", TableRows);
+
+    setEnhancedRows(rows);
+  }, [rows]);
+
   const [enhancedRows, setEnhancedRows] = useState<SI.OrderState[]>([]);
-  const [selectedRows, setSelectedRows] = useState<SI.OrderState[]>([]);
+  const [selectedRows, setSelectedRows] = useState<number[]>([]);
 
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [page, setPage] = useState<number>(0);
@@ -58,12 +66,17 @@ const TableRender: React.FC<OrderTableProps> = (props) => {
     }
   }, [rowsPerPage, page]);
 
+  useEffect(() => {
+    console.log(selectedRows);
+  }, [selectedRows]);
+
   interface selectedRowsState {
     selectedRows: SI.OrderState[];
   }
 
   const handleSelectedRows = (state: selectedRowsState) => {
-    setSelectedRows(selectedRows);
+    const selectedIds = state.selectedRows.map((row) => row.id);
+    setSelectedRows(selectedIds);
   };
 
   return (
@@ -75,6 +88,7 @@ const TableRender: React.FC<OrderTableProps> = (props) => {
         <SearchInput rows={rows} setEnhancedRows={setEnhancedRows} />
       )}
       <DataTable
+        keyField="id"
         pagination
         paginationRowsPerPageOptions={[5, 10, 20]}
         paginationComponentOptions={{

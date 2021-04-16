@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useReducer } from "react";
 import Grid from "@material-ui/core/Grid";
-import { orderColumns } from "../shared/TableRender/orderColumns/orderColumns";
+import { orderColumns } from "../shared/TableRender/Columns/orderColumns";
 
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";

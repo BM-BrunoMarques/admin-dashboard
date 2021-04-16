@@ -38,3 +38,6 @@ export interface Markers {
     long: number;
   };
 }
+
+
+export type deleteProps = number[]

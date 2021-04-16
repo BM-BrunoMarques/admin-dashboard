@@ -14,6 +14,7 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "@types/react-redux": "^7.1.7",
+    "@types/redux-logger": "^3.0.8",
     "chart.js": "^2.9.4",
     "d3-geo-projection": "^3.0.0",
     "formik": "^2.2.6",
@@ -28,6 +29,7 @@
     "react-scripts": "4.0.3",
     "react-simple-maps": "^2.3.0",
     "react-tooltip": "^4.2.17",
+    "redux-logger": "^3.0.6",
     "styled-components": "^5.2.3",
     "typescript": "~3.8.2",
     "yup": "^0.32.9"
