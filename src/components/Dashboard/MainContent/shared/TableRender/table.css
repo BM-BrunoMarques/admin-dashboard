@@ -19,3 +19,8 @@
   text-align: start;
   text-indent: 15px;
 }
+
+.gUpMat {
+  display: flex !important;
+  justify-content: flex-start !important;
+}

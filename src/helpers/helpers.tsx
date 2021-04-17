@@ -33,3 +33,14 @@ export const generateId = () => {
   );
   // return performance.now()
 };
+
+
+export const groupObjsBy = (data: object[], key: string) => {
+  return data.reduce((container: any, item: any) => {
+    const group = item[key];
+    container[group] = container[group] || [];
+    container[group].push(item);
+
+    return container;
+  }, {});
+};

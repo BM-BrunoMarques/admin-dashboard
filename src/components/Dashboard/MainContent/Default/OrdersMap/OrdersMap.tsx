@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { forwardLocation } from "../../../../../helpers/helpers";
-import { motion } from "framer-motion";
+import { forwardLocation, groupObjsBy } from "../../../../../helpers/helpers";
 import ReactTooltip from "react-tooltip";
 
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  Marker,
-} from "react-simple-maps";
+import RenderMarker from "./Markers/Markers";
+
+import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 
 import * as SI from "../../../../../helpers/consts";
 
@@ -21,20 +17,29 @@ interface OrdersMapProps {
   setMarkers: React.Dispatch<React.SetStateAction<SI.Markers[]>>;
 }
 
-const groupObjsBy = (data: object[], key: string) => {
-  return data.reduce((container: any, item: any) => {
-    const group = item[key];
-    container[group] = container[group] || [];
-    container[group].push(item);
-
-    return container;
-  }, {});
-};
-
 const OrdersMap: React.FC<OrdersMapProps> = (props) => {
   const { visibleRows, Markers, setMarkers } = props;
   const [GroupedOrders, setGroupOrders] = useState<any>(null);
   const [toolTip, setToolTip] = useState<string>("");
+
+  useEffect(() => {
+    if (visibleRows.length) {
+      setGroupOrders(groupObjsBy(visibleRows, "country"));
+    }
+  }, [visibleRows]);
+
+  useEffect(() => {
+    (async () => {
+      if (GroupedOrders) {
+        const keys = Object.keys(GroupedOrders);
+        setMarkers([]);
+        for (const key of keys) {
+          //disabled for saving api resources
+          // await populateMarkers(key);
+        }
+      }
+    })();
+  }, [GroupedOrders]);
 
   const populateMarkers = async (key: string, tryNum = 0) => {
     forwardLocation(key)
@@ -57,51 +62,6 @@ const OrdersMap: React.FC<OrdersMapProps> = (props) => {
       });
   };
 
-  useEffect(() => {
-    if (visibleRows.length) {
-      setGroupOrders(groupObjsBy(visibleRows, "country"));
-    }
-  }, [visibleRows]);
-
-  useEffect(() => {
-    (async () => {
-      if (GroupedOrders) {
-        const keys = Object.keys(GroupedOrders);
-        setMarkers([]);
-        for (const key of keys) {
-          //disabled for saving api resources
-          // await populateMarkers(key);
-        }
-      }
-    })();
-  }, [GroupedOrders]);
-
-  const renderMarker = (marker: SI.Markers) => {
-    const { country, geoLocation, total } = marker;
-    const { lat, long } = geoLocation;
-
-    return (
-      <Marker
-        name={country}
-        key={country}
-        coordinates={[long, lat]}
-        onMouseEnter={() => {
-          setToolTip(`${country} : ${total} orders.`);
-        }}
-        onMouseLeave={() => {
-          setToolTip("");
-        }}
-      >
-        <motion.circle
-          r={(total * 2) / 1.5}
-          fill="#F53"
-          animate={{ scale: 2 }}
-          transition={{ delay: 0.2 }}
-        />
-      </Marker>
-    );
-  };
-
   return (
     <>
       <ComposableMap
@@ -120,7 +80,10 @@ const OrdersMap: React.FC<OrdersMapProps> = (props) => {
           }
         </Geographies>
 
-        {Markers && Markers.map((marker) => renderMarker(marker))}
+        {Markers &&
+          Markers.map((marker) => (
+            <RenderMarker marker={marker} setToolTip={setToolTip} />
+          ))}
       </ComposableMap>
       <ReactTooltip>{toolTip}</ReactTooltip>
     </>

@@ -25,6 +25,7 @@ type EnhancedProps = {
 
 type UnenhancedProps = {
   enhanced: false;
+  handleDeleteUsers?: never;
   setVisibleRows: React.Dispatch<React.SetStateAction<SI.OrderState[]>>;
   selected?: never;
   setSelected?: never;
@@ -33,7 +34,9 @@ type UnenhancedProps = {
 type OrderTableProps = BaseProps & (EnhancedProps | UnenhancedProps);
 
 const TableRender: React.FC<OrderTableProps> = (props) => {
-  const { enhanced, parent, rows, columns } = props;
+  const { enhanced, parent, rows, columns, handleDeleteUsers } = props;
+  console.log("rows is: ", rows);
+
   const [TableRows, SetTableRows] = useState<SI.OrderState[]>([]);
   const setVisibleRows = props.setVisibleRows;
 
@@ -101,7 +104,12 @@ const TableRender: React.FC<OrderTableProps> = (props) => {
         selectableRowsVisibleOnly
         selectableRowsHighlight
         selectableRowsComponent={Checkbox}
-        contextComponent={<EnhancedToolBar />}
+        contextComponent={
+          <EnhancedToolBar
+            handleDeleteUsers={handleDeleteUsers}
+            selectedRows={selectedRows}
+          />
+        }
         onChangeRowsPerPage={(currentRowsPerPage, currentPage) => {
           setRowsPerPage(currentRowsPerPage);
           setPage(currentPage - 1);

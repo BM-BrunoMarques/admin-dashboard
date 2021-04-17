@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "@material-ui/core/styles";
 import * as SI from "../../../../helpers/consts";
+import AddToTable from "../shared/AddToTable/AddToTable";
 import TableRender from "../shared/TableRender/TableRender";
 import { orderColumns } from "../shared/TableRender/Columns/orderColumns";
 import Paper from "@material-ui/core/Paper";
@@ -13,7 +14,6 @@ const OrdersManagement: React.FC = (props) => {
   const dispatch = useAppDispatch();
 
   const handleDeleteUsers = (id: number[]) => {
-    console.log("delete", id);
     dispatch(deleteOrders(id));
   };
 
@@ -21,18 +21,20 @@ const OrdersManagement: React.FC = (props) => {
   const columns = orderColumns(enhanced, handleDeleteUsers);
 
   return (
-    <Paper>
-      {/* <AddToTable /> */}
-      <TableRender
-        rows={allOrders}
-        columns={columns}
-        enhanced
-        handleDeleteUsers={handleDeleteUsers}
-        selected={selected}
-        setSelected={setSelected}
-        parent="ordersManagement"
-      />
-    </Paper>
+    <>
+      <AddToTable />
+      <Paper>
+        <TableRender
+          rows={allOrders.orders}
+          columns={columns}
+          enhanced
+          handleDeleteUsers={handleDeleteUsers}
+          selected={selected}
+          setSelected={setSelected}
+          parent="ordersManagement"
+        />
+      </Paper>
+    </>
   );
 };
 

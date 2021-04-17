@@ -30,6 +30,10 @@ export interface OrderState {
   status: string;
 }
 
+export interface OrderStateObj {
+  orders: OrderState[];
+}
+
 export interface Markers {
   country: string;
   total: number;
@@ -39,5 +43,4 @@ export interface Markers {
   };
 }
 
-
-export type deleteProps = number[]
+export type deleteProps = number[];
