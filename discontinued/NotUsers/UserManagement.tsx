@@ -28,7 +28,7 @@ import Add from "@material-ui/icons/Add";
 
 const UserManagement: React.FC = () => {
   const classes = useStyles();
-  const allUsers = useAppSelector((state) => state.users);
+  const allUsers = useAppSelector((state) => state.users.users);
   const dispatch = useAppDispatch();
 
   const [flipped, setFlipped] = useState(false);

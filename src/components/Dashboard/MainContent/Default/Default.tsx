@@ -1,22 +1,16 @@
-import React, { useState, useRef, useEffect, useReducer } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
-import { orderColumns } from "../shared/TableRender/Columns/orderColumns";
-
+import { orderColumns } from "../OrdersManagement/Columns/orderColumns";
 import { useTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-
 import { useAppSelector } from "../../../../app/hooks";
-
 import RenderCard from "./RenderCard/RenderCard";
-// import { Chart } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { makeStyles } from "@material-ui/core/styles";
-import TableRender from "../shared/TableRender/TableRender";
+import TableRender from "../utils/TableRender/TableRender";
 import * as SI from "../../../../helpers/consts";
-
 import OrdersMap from "./OrdersMap/OrdersMap";
-
-import { cardData, chartData, doughnutData } from "./data/data";
+import { cardData, chartData } from "./data/data";
 
 export const useStyles = makeStyles({
   container: {
@@ -28,11 +22,21 @@ export const useStyles = makeStyles({
   },
 });
 
+const options = {
+  animations: {
+    tension: {
+      duration: 4000,
+      easing: "linear",
+      from: 1,
+      to: 0,
+    },
+  },
+};
+
 const Default: React.FC = () => {
   const theme = useTheme();
   const columns = orderColumns(false);
   const { orders } = useAppSelector((state) => state.orders);
-  const [Markers, setMarkers] = useState<SI.Markers[]>([]);
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const [gridHeight, setGridSize] = useState<number>();
   const cardsGridRef = useRef<HTMLDivElement>(null);
@@ -71,11 +75,7 @@ const Default: React.FC = () => {
           justify="center"
         >
           <Grid item xs={12} lg={6}>
-            <OrdersMap
-              visibleRows={visibleRows}
-              setMarkers={setMarkers}
-              Markers={Markers}
-            />
+            <OrdersMap visibleRows={visibleRows} />
           </Grid>
           <Grid item xs={12} lg={5}>
             <TableRender

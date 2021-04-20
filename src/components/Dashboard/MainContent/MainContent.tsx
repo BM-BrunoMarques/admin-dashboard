@@ -2,8 +2,9 @@ import React from "react";
 import Default from "./Default/Default";
 import { Route, Switch, useLocation } from "react-router-dom";
 import OrdersManagement from "./OrdersManagement/OrdersManagement";
+import UsersManagement from "./UsersManagement/UsersManagement";
 import { motion, AnimatePresence } from "framer-motion";
-import AnimatedRoutes from "./shared/AnimatedRoutes/AnimatedRoutes";
+import AnimatedRoutes from "./utils/AnimatedRoutes/AnimatedRoutes";
 
 interface MainContentProps {
   classes: any;
@@ -65,6 +66,17 @@ const MainContent: React.FC<MainContentProps> = (props) => {
               variants={pageVariants}
             >
               <OrdersManagement />
+            </motion.div>
+          </Route>
+
+          <Route exact path={`${path}/users`}>
+            <motion.div
+              initial="initial"
+              animate="in"
+              exit="out"
+              variants={pageVariants}
+            >
+              <UsersManagement />
             </motion.div>
           </Route>
         </Switch>

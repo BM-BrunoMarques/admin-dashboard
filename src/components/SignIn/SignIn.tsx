@@ -1,11 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { useAppDispatch } from "../../app/hooks";
 import {
   setLoggedIn,
   setAuthUser,
 } from "../../features/Authentication/authSlice";
-// import * as SI from "./SignIn.module";
 import { useStyles } from "./stylesSignIn";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -36,7 +35,7 @@ const SignIn: React.FC = () => {
       .required("Email is required"),
     password: yup
       .string()
-      .min(8, "Password should be of minimum 8 characters length")
+      .min(6, "Password should be of minimum 8 characters length")
       .required("Password is required"),
   });
 

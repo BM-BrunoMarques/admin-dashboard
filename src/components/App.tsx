@@ -53,10 +53,6 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <div>
-        <Link to="/login">LOGIN</Link> <Link to="/dashboard">DASHBOARD</Link>
-      </div>
-
       <Route exact path="/login" component={SignIn} />
       {isAuth && (
         <PrivateRoute path="/dashboard">

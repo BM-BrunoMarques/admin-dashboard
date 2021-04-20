@@ -8,7 +8,7 @@ const initialState: {
   user: SI.UserState;
 } = {
   isAuthenticated: false,
-  user: importedInitialState[0],
+  user: importedInitialState.users[0],
 };
 
 export const authSlice = createSlice({

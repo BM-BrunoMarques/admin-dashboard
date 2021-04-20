@@ -1,52 +1,78 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk, RootState } from "../../app/store";
+import { generateUser } from "../../helpers/helpers";
 import * as SI from "../../helpers/consts";
 
-export const initialState: Array<SI.UserState> = [
-  {
-    authentication: {
-      id: Math.floor(Math.random() * 123456789012345),
-      type: SI.UserType.ADMIN,
-      email: "user@example.com",
-      password: "helloworld",
-    },
-    info: {
-      name: {
-        firstName: "John",
-        lastName: "Doe",
+export const initialState: SI.UsersStateObj = {
+  users: [
+    generateUser(
+      {
+        authentication: {
+          type: SI.UserType.ADMIN,
+          email: "user@example.com",
+          password: "helloworld",
+        },
       },
-    },
-  },
-  {
-    authentication: {
-      id: Math.floor(Math.random() * 123456789012345),
-      type: SI.UserType.USER,
-      email: "user2@example.com",
-      password: "helloworld",
-    },
-    info: {
-      name: {
-        firstName: "Ana",
-        lastName: "Marques",
+      {
+        info: {
+          name: {
+            firstName: "John",
+            lastName: "Doe",
+          },
+        },
+      }
+    ),
+    generateUser(
+      {
+        authentication: {
+          type: SI.UserType.USER,
+          email: "user2@example.com",
+          password: "helloworld",
+        },
       },
-    },
-  },
-];
+      {
+        info: {
+          name: {
+            firstName: "Anna",
+            lastName: "Simpson",
+          },
+        },
+      }
+    ),
+  ],
+};
 
 export const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
-    deleteUser: (state, action) => {
-      return state.filter((user) => user.authentication.id !== action.payload);
+    deleteUsers: (state, action) => {
+      state.users = state.users.filter(
+        (order) => !action.payload.includes(order.authentication.id)
+      );
     },
     createUser: (state, action) => {
-      return state.concat(action.payload);
+      const { firstName, lastName, type, email, password } = action.payload;
+      const authentication = {
+        type,
+        email,
+        password,
+      };
+      const info = {
+        name: {
+          firstName,
+          lastName,
+        },
+      };
+
+      const user = generateUser({ authentication }, { info });
+
+      state.users.push(user);
     },
   },
 });
 
-export const { deleteUser } = usersSlice.actions;
+export const { createUser, deleteUsers } = usersSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
@@ -61,6 +87,6 @@ export const { deleteUser } = usersSlice.actions;
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-export const selectCount = (state: RootState) => state.users;
+export const selectCount = (state: RootState) => state.users.users;
 
 export default usersSlice.reducer;

@@ -10,8 +10,8 @@ import SearchInput from "./SearchInput/SearchInput";
 import "./table.css";
 
 type BaseProps = {
-  parent: "ordersManagement" | "usersManagement" | "dashboard";
-  rows: SI.OrderState[];
+  parent: "ordersManagement" | "dashboard" | "usersManagement";
+  rows: any;
   columns?: any;
 };
 
@@ -19,8 +19,6 @@ type EnhancedProps = {
   enhanced: true;
   handleDeleteUsers: (id: SI.deleteProps) => void;
   setVisibleRows?: never;
-  selected: string[];
-  setSelected: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 type UnenhancedProps = {
@@ -33,52 +31,78 @@ type UnenhancedProps = {
 
 type OrderTableProps = BaseProps & (EnhancedProps | UnenhancedProps);
 
+function isUserState(
+  rows: SI.OrderState[] | SI.UserState[]
+): rows is SI.UserState[] {
+  return (rows as SI.UserState[]) !== undefined;
+}
+
 const TableRender: React.FC<OrderTableProps> = (props) => {
-  const { enhanced, parent, rows, columns, handleDeleteUsers } = props;
-  console.log("rows is: ", rows);
+  const enhancedProps: OrderTableProps = {
+    enhanced: true,
+    parent: props.parent,
+    rows: props.rows,
+    handleDeleteUsers: props.handleDeleteUsers!,
+  };
 
-  const [TableRows, SetTableRows] = useState<SI.OrderState[]>([]);
-  const setVisibleRows = props.setVisibleRows;
+  const unenhancedProps: OrderTableProps = {
+    enhanced: false,
+    parent: props.parent,
+    rows: props.rows,
+    setVisibleRows: props.setVisibleRows!,
+  };
 
-  useEffect(() => {
-    console.log("rows", rows, "tableRows ", TableRows);
+  const { enhanced, rows, parent, columns } = props;
+  const { setVisibleRows } = unenhancedProps;
+  const { handleDeleteUsers } = enhancedProps;
 
-    setEnhancedRows(rows);
-  }, [rows]);
-
-  const [enhancedRows, setEnhancedRows] = useState<SI.OrderState[]>([]);
+  const [enhancedRows, setEnhancedRows] = useState<
+    SI.OrderState[] | SI.UserState[]
+  >([]);
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
-
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [page, setPage] = useState<number>(0);
 
   useEffect(() => {
-    if (setVisibleRows) {
+    setEnhancedRows(rows);
+  }, [rows]);
+
+  useEffect(() => {
+    setSelectedRows([]);
+  }, [enhancedRows]);
+
+  useEffect(() => {
+    if (!enhanced) {
       setVisibleRows(
         rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
       );
-      setEnhancedRows(rows);
     }
+    setEnhancedRows(rows);
   }, []);
 
   useEffect(() => {
-    if (setVisibleRows) {
+    if (!enhanced) {
       setVisibleRows(
         rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
       );
     }
   }, [rowsPerPage, page]);
 
-  useEffect(() => {
-    console.log(selectedRows);
-  }, [selectedRows]);
-
   interface selectedRowsState {
-    selectedRows: SI.OrderState[];
+    selectedRows: SI.OrderState[] | SI.UserState[];
   }
 
   const handleSelectedRows = (state: selectedRowsState) => {
-    const selectedIds = state.selectedRows.map((row) => row.id);
+    let selectedIds;
+    if (!(parent === "usersManagement")) {
+      selectedIds = (state.selectedRows as SI.OrderState[]).map(
+        (row) => row.id
+      );
+    } else {
+      selectedIds = (state.selectedRows as SI.UserState[]).map(
+        (row) => row.authentication.id
+      );
+    }
     setSelectedRows(selectedIds);
   };
 
@@ -117,7 +141,7 @@ const TableRender: React.FC<OrderTableProps> = (props) => {
         onChangePage={(page, _) => {
           setPage(page - 1);
         }}
-        title="Orders"
+        title={parent === "usersManagement" ? "Users" : "Orders"}
         columns={columns}
         data={enhanced ? enhancedRows : rows}
       />

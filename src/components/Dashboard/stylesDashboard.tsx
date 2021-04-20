@@ -63,4 +63,13 @@ export const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  themeButton: {
+    minWidth: "auto",
+    padding: "6px 10px 6px 17px",
+    marginRight: "12px",
+  },
+  logOutButton: {
+    minWidth: "auto",
+    padding: "6px 10px 6px 17px",
+  },
 }));

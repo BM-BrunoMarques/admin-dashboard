@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { forwardLocation, groupObjsBy } from "../../../../../helpers/helpers";
+import { groupObjsBy } from "../../../../../helpers/helpers";
 import ReactTooltip from "react-tooltip";
-
 import RenderMarker from "./Markers/Markers";
-
+import csc from "country-state-city";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-
 import * as SI from "../../../../../helpers/consts";
 
 const geoUrl =
@@ -13,13 +11,12 @@ const geoUrl =
 
 interface OrdersMapProps {
   visibleRows: SI.OrderState[];
-  Markers: SI.Markers[];
-  setMarkers: React.Dispatch<React.SetStateAction<SI.Markers[]>>;
 }
 
 const OrdersMap: React.FC<OrdersMapProps> = (props) => {
-  const { visibleRows, Markers, setMarkers } = props;
+  const { visibleRows } = props;
   const [GroupedOrders, setGroupOrders] = useState<any>(null);
+  const [Markers, setMarkers] = useState<SI.Markers[]>([]);
   const [toolTip, setToolTip] = useState<string>("");
 
   useEffect(() => {
@@ -33,33 +30,23 @@ const OrdersMap: React.FC<OrdersMapProps> = (props) => {
       if (GroupedOrders) {
         const keys = Object.keys(GroupedOrders);
         setMarkers([]);
+        const markersGrp: any = [];
         for (const key of keys) {
-          //disabled for saving api resources
-          // await populateMarkers(key);
+          const { name } = GroupedOrders[key][0].country;
+          markersGrp.push(await populateMarkers(key, name));
         }
+        setMarkers(markersGrp);
       }
     })();
   }, [GroupedOrders]);
 
-  const populateMarkers = async (key: string, tryNum = 0) => {
-    forwardLocation(key)
-      .then((res) => {
-        if (res.latitude && res.longitude) {
-          setMarkers((prevMarkers) =>
-            prevMarkers.concat({
-              country: key,
-              total: GroupedOrders[key].length,
-              geoLocation: { lat: res.latitude, long: res.longitude },
-            })
-          );
-        }
-      })
-      .catch(() => {
-        if (tryNum < 5) {
-          tryNum++;
-          populateMarkers(key, tryNum);
-        }
-      });
+  const populateMarkers = async (key: string, name: string) => {
+    const { latitude, longitude } = csc.getCountryByCode(key);
+    return {
+      country: name,
+      total: GroupedOrders[key].length,
+      geoLocation: { lat: +latitude, long: +longitude },
+    };
   };
 
   return (
@@ -79,11 +66,12 @@ const OrdersMap: React.FC<OrdersMapProps> = (props) => {
             ))
           }
         </Geographies>
+        {Markers.length &&
+          Markers.map((marker) => {
+            console.log("calledzzz");
 
-        {Markers &&
-          Markers.map((marker) => (
-            <RenderMarker marker={marker} setToolTip={setToolTip} />
-          ))}
+            return <RenderMarker marker={marker} setToolTip={setToolTip} />;
+          })}
       </ComposableMap>
       <ReactTooltip>{toolTip}</ReactTooltip>
     </>

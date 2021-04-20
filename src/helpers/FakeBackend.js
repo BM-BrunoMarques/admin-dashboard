@@ -61,7 +61,7 @@ export const configureFakeBackend = () => {
 
       const authenticate = () => {
         const state = store.getState();
-        const allUsers = state.users;
+        const allUsers = state.users.users;
         const { email, password } = body;
 
         const userFound = allUsers.find((el) => {

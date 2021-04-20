@@ -7,100 +7,127 @@ export const initialState: SI.OrderStateObj = {
   orders: [
     generateOrder(
       "Frozen yoghurt",
-      "10/10/2212",
       "90731 cherry blossom. CA",
-      "Portugal",
-      100,
+      {
+        name: "Portugal",
+        code: "PT",
+      },
+      "$129.99",
       "Shipped"
     ),
     generateOrder(
       "Ice cream sandwich",
-      "10/10/2212",
       "90731 cherry blossom. CA",
-      "United States",
-      100,
+      {
+        name: "Portugal",
+        code: "PT",
+      },
+      "$129.99",
       "Shipped"
     ),
     generateOrder(
       "Eclair",
-      "10/10/2212",
       "90731 cherry blossom. CA",
-      "France",
-      100,
+      {
+        name: "France",
+        code: "FR",
+      },
+      "$129.99",
       "Shipped"
     ),
     generateOrder(
       "Cupcake",
-      "10/10/2212",
       "90731 cherry blossom. CA",
-      "United States",
-      100,
+      {
+        name: "United States",
+        code: "US",
+      },
+      "$129.99",
       "Shipped"
     ),
     generateOrder(
       "Gingerbread",
-      "10/10/2212",
       "90731 cherry blossom. CA",
-      "United States",
-      100,
+      {
+        name: "United States",
+        code: "US",
+      },
+      "$129.99",
       "Shipped"
     ),
     generateOrder(
       "Frozen yoghurt",
-      "10/10/2212",
       "90731 cherry blossom. CA",
-      "France",
-      100,
+      {
+        name: "France",
+        code: "FR",
+      },
+      "$129.99",
       "Shipped"
     ),
     generateOrder(
       "Ice cream sandwich",
-      "10/10/2212",
       "90731 cherry blossom. CA",
-      "Russia",
-      100,
+      {
+        name: "Russia",
+        code: "RU",
+      },
+      "$129.99",
       "Shipped"
     ),
     generateOrder(
       "Eclair",
-      "10/10/2212",
       "90731 cherry blossom. CA",
-      "Russia",
-      100,
+      {
+        name: "Russia",
+        code: "RU",
+      },
+      "$129.99",
       "Shipped"
     ),
     generateOrder(
       "Eclair",
-      "10/10/2212",
       "90731 cherry blossom. CA",
-      "China",
-      100,
+      {
+        name: "China",
+        code: "CN",
+      },
+      "$129.99",
       "Shipped"
     ),
     generateOrder(
       "Eclair",
-      "10/10/2212",
       "90731 cherry blossom. CA",
-      "China",
-      100,
+      {
+        name: "China",
+        code: "CN",
+      },
+      "$129.99",
       "Shipped"
     ),
   ],
 };
+
+var formatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+});
 
 export const ordersSlice = createSlice({
   name: "orders",
   initialState,
   reducers: {
     createOrder: (state, action) => {
-      state.orders.unshift(action.payload);
+      const { name, address, country, total, status } = action.payload;
+
+      const price = formatter.format(total);
+      const order = generateOrder(name, address, country, price, status);
+      state.orders.unshift(order);
     },
     deleteOrders: (state, action) => {
-      action.payload.map((o: number) => {
-        state.orders = state.orders.filter((order) =>
-          !action.payload.includes(order.id)
-        );
-      });
+      state.orders = state.orders.filter(
+        (order) => !action.payload.includes(order.id)
+      );
     },
   },
 });

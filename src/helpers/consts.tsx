@@ -12,11 +12,14 @@ export interface UserState {
   authentication: {
     id: number;
     type: UserType;
-    password: string;
     email: string;
+    password: string;
   };
-  info?: {
-    name?: Name;
+  info: {
+    name: {
+      firstName: string;
+      lastName: string;
+    };
   };
 }
 
@@ -25,13 +28,22 @@ export interface OrderState {
   name: string;
   date: string;
   address: string;
-  country: string;
-  total: number;
+  country: {
+    name: string;
+    code: string;
+  };
+  total: string;
   status: string;
 }
 
+export type UserOrderState = UserState[] | OrderState[];
+
 export interface OrderStateObj {
   orders: OrderState[];
+}
+
+export interface UsersStateObj {
+  users: UserState[];
 }
 
 export interface Markers {

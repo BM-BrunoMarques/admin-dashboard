@@ -1,7 +1,7 @@
 import React from "react";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteOutline from "@material-ui/icons/DeleteOutline";
-import * as SI from "../../../../../../helpers/consts";
+import * as SI from "../../../../../helpers/consts";
 
 const base = {
   sortable: true,
@@ -25,13 +25,12 @@ export const orderColumns = (
     { name: "Name", selector: "name", ...base },
     { name: "Date", selector: "date", ...base },
     { name: "Address", selector: "address", ...base },
-    { name: "Country", selector: "country", ...base },
+    { name: "Country", selector: "country.name", ...base },
     {
       name: "Total",
       selector: "total",
       sortable: true,
       grow: false,
-      omit: !enhanced,
     },
     { name: "Status", selector: "status", ...base },
     {

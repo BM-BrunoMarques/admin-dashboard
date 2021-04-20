@@ -5,21 +5,29 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Search from "@material-ui/icons/Search";
 
 interface SearchProps {
-  setEnhancedRows: React.Dispatch<React.SetStateAction<SI.OrderState[]>>;
-  rows: SI.OrderState[];
+  setEnhancedRows: React.Dispatch<
+    React.SetStateAction<SI.OrderState[] | SI.UserState[]>
+  >;
+  rows: any;
+}
+
+function isUserState(
+  rows: SI.OrderState[] | SI.UserState[]
+): rows is SI.UserState[] {
+  return (rows as SI.UserState[]) !== undefined;
 }
 
 const SearchInput: React.FC<SearchProps> = (props) => {
   const { rows, setEnhancedRows } = props;
   const [searchText, setSearchText] = useState("");
 
-  const searchInRow = (row: SI.OrderState) => {
+  const searchInOrders = (row: SI.OrderState) => {
     return (
       row.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase()) ||
       row.address
         .toLocaleLowerCase()
         .includes(searchText.toLocaleLowerCase()) ||
-      row.country
+      row.country.name
         .toLocaleLowerCase()
         .includes(searchText.toLocaleLowerCase()) ||
       row.id
@@ -29,8 +37,22 @@ const SearchInput: React.FC<SearchProps> = (props) => {
     );
   };
 
+  const searchInUsers = (row: SI.UserState) => {
+    return row.authentication.email
+      .toLocaleLowerCase()
+      .includes(searchText.toLocaleLowerCase());
+  };
+
   useEffect(() => {
-    setEnhancedRows(rows.filter((row) => searchInRow(row)));
+    if (rows[0]?.id) {
+      setEnhancedRows(
+        (rows as SI.OrderState[]).filter((row) => searchInOrders(row))
+      );
+    } else {
+      setEnhancedRows(
+        (rows as SI.UserState[]).filter((row) => searchInUsers(row))
+      );
+    }
   }, [searchText]);
 
   const handleSearchText = (e: React.ChangeEvent<HTMLInputElement>) => {

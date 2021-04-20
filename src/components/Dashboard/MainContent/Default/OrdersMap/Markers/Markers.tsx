@@ -5,22 +5,23 @@ import * as SI from "../../../../../../helpers/consts";
 
 const variants = {
   initial: {
-    x: "100%",
+    y: -35,
     opacity: 0,
     scale: 0.3,
   },
   in: {
-    x: 0,
+    y: 0,
     opacity: 1,
     scale: [2, 1.5],
     transition: {
-      // delay: 0.1,
+      // delay: 0.4,
       ease: "easeIn",
-      duration: 0.8,
+      duration: 0.4,
     },
   },
   out: {
     opacity: 0,
+    y: -35,
   },
 };
 
@@ -35,8 +36,8 @@ const RenderMarker: React.FC<props> = ({ marker, setToolTip }) => {
 
   return (
     <Marker
-      name={country}
       key={country}
+      name={country}
       coordinates={[long, lat]}
       onMouseEnter={() => {
         setToolTip(`${country} : ${total} orders.`);

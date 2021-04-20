@@ -13,15 +13,19 @@ const EnhancedToolBar: React.FC<any> = ({
 
   return (
     <>
-      <IconButton
-        onClick={handleDelete}
-        color="primary"
-        aria-label="delete"
-        component="span"
-      >
-        <DeleteOutline />
-      </IconButton>
-      {selectedCount} Selected
+      {selectedRows && (
+        <>
+          <IconButton
+            onClick={handleDelete}
+            color="primary"
+            aria-label="delete"
+            component="span"
+          >
+            <DeleteOutline />
+          </IconButton>
+          {selectedCount} Selected
+        </>
+      )}
     </>
   );
 };

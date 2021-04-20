@@ -7,6 +7,7 @@ import { useTheme } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import { Link, useHistory } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { withStyles } from "@material-ui/core/styles";
 
 //icons
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -29,6 +30,12 @@ const DrawerMenu: React.FC<DrawerProps> = (props) => {
   const theme = useTheme();
   const history = useHistory();
 
+  const BiggerListItemIcon = withStyles({
+    root: {
+      "& .MuiSvgIcon-root": { fontSize: "2.7em" },
+    },
+  })(ListItemIcon);
+
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   const dashboardLinks = [
@@ -41,6 +48,11 @@ const DrawerMenu: React.FC<DrawerProps> = (props) => {
       label: "Orders",
       path: "orders",
       icon: <MailIcon />,
+    },
+    {
+      label: "Users",
+      path: "users",
+      icon: <InboxIcon />,
     },
   ];
 
@@ -89,7 +101,9 @@ const DrawerMenu: React.FC<DrawerProps> = (props) => {
               to={`${url}/${path}`}
             >
               <ListItem button key={label}>
-                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemIcon>
+                  <BiggerListItemIcon>{icon}</BiggerListItemIcon>
+                </ListItemIcon>
                 <ListItemText primary={label} />
               </ListItem>
             </Link>

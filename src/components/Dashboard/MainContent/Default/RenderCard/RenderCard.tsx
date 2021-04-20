@@ -34,11 +34,15 @@ const RenderCard: React.FC<CardProps> = (props) => {
       </div>
 
       <div className={classes.middleSection}>
-        {total && <Typography variant="h5">{total}</Typography>}
+        {total && (
+          <Typography variant="h5">
+            <span>{total}</span>
+          </Typography>
+        )}
       </div>
       <div className={classes.endSection}>
         {percentage && (
-          <Typography  variant="subtitle2">
+          <Typography variant="subtitle2">
             <span
               className={`${classes.tag} ${
                 percentage.charAt(0) === "+"
