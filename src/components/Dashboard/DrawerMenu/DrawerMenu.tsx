@@ -103,13 +103,22 @@ const DrawerMenu: React.FC<DrawerProps> = (props) => {
               onClick={(e) => handleLinkClick(e, path)}
               key={path}
               to={`${url}/${path}`}
+              style={{ textDecoration: "none" }}
             >
               <ListItem button key={label}>
                 <ListItemIcon>
                   <BiggerListItemIcon>{icon}</BiggerListItemIcon>
                 </ListItemIcon>
                 <ListItemText
-                  primary={<Typography color="primary">{label}</Typography>}
+                  primary={
+                    <Typography
+                      variant="body1"
+                      color="primary"
+                      style={{ fontSize: "1.4rem" }}
+                    >
+                      {label}
+                    </Typography>
+                  }
                 />
               </ListItem>
             </Link>
