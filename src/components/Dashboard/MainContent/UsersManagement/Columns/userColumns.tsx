@@ -2,7 +2,7 @@ import React from "react";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteOutline from "@material-ui/icons/DeleteOutline";
 import * as SI from "../../../../../helpers/consts";
-import Avatar from "react-avatar";
+import UserAvatar from "../../utils/UserAvatar/UserAvatar";
 
 const base = {
   sortable: true,
@@ -25,9 +25,7 @@ export const userColumns = (
     {
       cell: (props: SI.UserState) => {
         const { firstName, lastName } = props.info.name;
-        return (
-          <Avatar name={`${firstName} ${lastName}`} size="40" round={true} />
-        );
+        return <UserAvatar name={`${firstName} ${lastName}`} />;
       },
       width: 50,
       selector: "id",

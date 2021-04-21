@@ -76,6 +76,8 @@ export const chartData = {
   ],
 };
 
+
+
 export const doughnutData = {
   labels: ["Red", "Green", "Yellow"],
   datasets: [

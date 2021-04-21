@@ -9,14 +9,17 @@ import { Link, useHistory } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { withStyles } from "@material-ui/core/styles";
 
+import Typography from "@material-ui/core/Typography";
+
 //icons
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
+import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 
 interface DrawerProps {
   handleDrawerClose: () => void;
@@ -42,17 +45,17 @@ const DrawerMenu: React.FC<DrawerProps> = (props) => {
     {
       label: "Dashboard",
       path: "default",
-      icon: <InboxIcon />,
+      icon: <DashboardIcon />,
     },
     {
       label: "Orders",
       path: "orders",
-      icon: <MailIcon />,
+      icon: <MonetizationOnIcon />,
     },
     {
       label: "Users",
       path: "users",
-      icon: <InboxIcon />,
+      icon: <PeopleAltIcon />,
     },
   ];
 
@@ -96,6 +99,7 @@ const DrawerMenu: React.FC<DrawerProps> = (props) => {
           const { label, path, icon } = link;
           return (
             <Link
+              color="inherit"
               onClick={(e) => handleLinkClick(e, path)}
               key={path}
               to={`${url}/${path}`}
@@ -104,7 +108,9 @@ const DrawerMenu: React.FC<DrawerProps> = (props) => {
                 <ListItemIcon>
                   <BiggerListItemIcon>{icon}</BiggerListItemIcon>
                 </ListItemIcon>
-                <ListItemText primary={label} />
+                <ListItemText
+                  primary={<Typography color="primary">{label}</Typography>}
+                />
               </ListItem>
             </Link>
           );

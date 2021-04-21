@@ -6,6 +6,7 @@ import DataTable from "react-data-table-component";
 import EnhancedToolBar from "./EnhancedToolBar/EnhancedToolBar";
 import Checkbox from "@material-ui/core/Checkbox";
 import SearchInput from "./SearchInput/SearchInput";
+import { useTheme } from "@material-ui/core/styles";
 
 import "./table.css";
 
@@ -38,6 +39,7 @@ function isUserState(
 }
 
 const TableRender: React.FC<OrderTableProps> = (props) => {
+  const theme = useTheme();
   const enhancedProps: OrderTableProps = {
     enhanced: true,
     parent: props.parent,
@@ -62,6 +64,38 @@ const TableRender: React.FC<OrderTableProps> = (props) => {
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [page, setPage] = useState<number>(0);
+
+  const customStyles = {
+    rows: {
+      style: {
+        minHeight: "72px",
+      },
+    },
+    header: {
+      style: {
+        backgroundColor: theme.palette.background.paper,
+        color: theme.palette.type === "dark" ? "#fff" : "#000",
+        textAlign: "start",
+      },
+    },
+    headCells: {
+      style: {
+        paddingLeft: "8px",
+        paddingRight: "8px",
+      },
+    },
+    cells: {
+      style: {
+        paddingLeft: "8px",
+        paddingRight: "8px",
+      },
+      Checkbox: {
+        style: {
+          background: "red",
+        },
+      },
+    },
+  };
 
   useEffect(() => {
     setEnhancedRows(rows);
@@ -122,6 +156,7 @@ const TableRender: React.FC<OrderTableProps> = (props) => {
           selectAllRowsItem: true,
           selectAllRowsItemText: "All",
         }}
+        customStyles={customStyles}
         paginationPerPage={rowsPerPage}
         onSelectedRowsChange={handleSelectedRows}
         selectableRows={enhanced}

@@ -1,13 +1,11 @@
 import React from "react";
-import * as SI from "../../../../helpers/consts";
-// import AddToTable from "../shared/AddToTable/AddToTable";
 import { orderColumns } from "./Columns/orderColumns";
 import Paper from "@material-ui/core/Paper";
 import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
 import { deleteOrders } from "../../../../features/Orders/ordersSlice";
 import TableRender from "../utils/TableRender/TableRender";
-import OpenContainerAnimated from "../utils/OpenContainerAnimated/OpenContainerAnimated";
 import AddOrderForm from "./AddOrderForm/AddOrderForm";
+import ModalForm from "../utils/ModalForm/ModalForm";
 
 const OrdersManagement: React.FC = (props) => {
   const [selected, setSelected] = React.useState<string[]>([]);
@@ -19,13 +17,15 @@ const OrdersManagement: React.FC = (props) => {
   };
 
   const allOrders = useAppSelector((state) => state.orders);
+
   const columns = orderColumns(enhanced, handleDeleteUsers);
 
   return (
     <>
-      <OpenContainerAnimated>
+      <ModalForm>
         <AddOrderForm />
-      </OpenContainerAnimated>
+      </ModalForm>
+
       <Paper>
         <TableRender
           rows={allOrders.orders}

@@ -52,7 +52,7 @@ const OrdersMap: React.FC<OrdersMapProps> = (props) => {
   return (
     <>
       <ComposableMap
-        style={{ maxHeight: "550px" }}
+        style={{ maxHeight: "650px" }}
         data-tip=""
         projectionConfig={{
           scale: 220,

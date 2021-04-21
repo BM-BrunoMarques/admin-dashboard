@@ -22,17 +22,6 @@ export const useStyles = makeStyles({
   },
 });
 
-const options = {
-  animations: {
-    tension: {
-      duration: 4000,
-      easing: "linear",
-      from: 1,
-      to: 0,
-    },
-  },
-};
-
 const Default: React.FC = () => {
   const theme = useTheme();
   const columns = orderColumns(false);
@@ -48,24 +37,36 @@ const Default: React.FC = () => {
 
   return (
     <>
-      <Grid container spacing={isSmall ? 3 : 2}>
-        <Grid item xs={12} md={7}>
-          <Grid container spacing={1} ref={cardsGridRef}>
-            {cardData.map((card) => (
-              <Grid item key={card.title} xs={12} sm={6}>
-                <RenderCard data={card} />
-              </Grid>
-            ))}
-          </Grid>
-        </Grid>
-
+      <Grid container>
         <Grid
-          xs={12}
-          md={5}
-          item
-          style={{ height: gridHeight, maxHeight: "400px" }}
+          container
+          alignItems="center"
+          justify="center"
+          style={{ display: "flex", justifyContent: "space-around" }}
         >
-          <Bar data={chartData} options={{ maintainAspectRatio: false }} />
+          <Grid item xs={12} md={5}>
+            <Grid container spacing={1} ref={cardsGridRef}>
+              {cardData.map((card) => (
+                <Grid item key={card.title} xs={12} sm={6}>
+                  <RenderCard data={card} />
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+          <Grid
+            xs={12}
+            md={6}
+            item
+            style={{
+              position: "relative",
+              height: isSmall ? "265px" : '320px',
+            }}
+          >
+            <Bar
+              data={chartData}
+              options={{ responsive: true, maintainAspectRatio: false }}
+            />
+          </Grid>
         </Grid>
 
         <Grid
@@ -73,11 +74,16 @@ const Default: React.FC = () => {
           spacing={isSmall ? 3 : 4}
           alignItems="center"
           justify="center"
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            marginTop: "40px",
+          }}
         >
-          <Grid item xs={12} lg={6}>
+          <Grid item xs={12} lg={5}>
             <OrdersMap visibleRows={visibleRows} />
           </Grid>
-          <Grid item xs={12} lg={5}>
+          <Grid item xs={12} lg={6}>
             <TableRender
               rows={orders}
               columns={columns}

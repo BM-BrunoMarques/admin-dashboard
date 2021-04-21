@@ -1,13 +1,11 @@
 import React from "react";
-import * as SI from "../../../../helpers/consts";
-// import AddToTable from "../shared/AddToTable/AddToTable";
 import { userColumns } from "./Columns/userColumns";
 import Paper from "@material-ui/core/Paper";
 import { useAppSelector, useAppDispatch } from "../../../../app/hooks";
 import { deleteUsers } from "../../../../features/UserManagement/usersSlice";
 import TableRender from "../utils/TableRender/TableRender";
-import OpenContainerAnimated from "../utils/OpenContainerAnimated/OpenContainerAnimated";
 import AddUserForm from "./AddUserForm/AddUserForm";
+import ModalForm from "../utils/ModalForm/ModalForm";
 
 const UsersManagement: React.FC = () => {
   const enhanced = true;
@@ -23,9 +21,9 @@ const UsersManagement: React.FC = () => {
   return (
     <>
       <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
-        <OpenContainerAnimated>
+        <ModalForm>
           <AddUserForm />
-        </OpenContainerAnimated>
+        </ModalForm>
         <Paper>
           <TableRender
             parent="usersManagement"

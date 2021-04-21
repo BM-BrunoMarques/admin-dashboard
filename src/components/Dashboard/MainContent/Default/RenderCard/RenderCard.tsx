@@ -3,6 +3,7 @@ import Card from "@material-ui/core/Card";
 import Chip from "@material-ui/core/Chip";
 import Typography from "@material-ui/core/Typography";
 import { useStyles } from "./stylesRenderCard";
+import AnimatedCounter from "../../utils/AnimatedCounter/AnimatedCounter";
 
 interface CardProps {
   data: {
@@ -36,7 +37,14 @@ const RenderCard: React.FC<CardProps> = (props) => {
       <div className={classes.middleSection}>
         {total && (
           <Typography variant="h5">
-            <span>{total}</span>
+            <span>
+              {isNaN(+total) && `$`}
+
+              <AnimatedCounter
+                from={0}
+                to={isNaN(+total) ? +total.slice(1) : +total}
+              />
+            </span>
           </Typography>
         )}
       </div>
@@ -50,7 +58,12 @@ const RenderCard: React.FC<CardProps> = (props) => {
                   : classes.negative
               }`}
             >
-              {percentage}
+              {percentage.charAt(0)}
+              <AnimatedCounter
+                from={0}
+                to={+percentage.slice(1, percentage.length - 1)}
+              />
+              {percentage.slice(percentage.length - 1)}
             </span>
           </Typography>
         )}
