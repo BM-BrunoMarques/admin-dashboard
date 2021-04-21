@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useFormik, Field, FormikProvider } from "formik";
 import * as yup from "yup";
 
-import { useTheme, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import NumberFormat from "react-number-format";
 import { useAppDispatch } from "../../../../../app/hooks";
 import { createOrder } from "../../../../../features/Orders/ordersSlice";
@@ -69,10 +68,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddOrderForm: React.FC = () => {
-  const theme = useTheme();
   const dispatch = useAppDispatch();
-
-  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [countries, setCountries] = useState<ICountry[]>([]);
   const [regions, setRegions] = useState<IState[]>([]);
@@ -115,7 +111,6 @@ const AddOrderForm: React.FC = () => {
 
   useEffect(() => {
     const allCountries = csc.getAllCountries();
-    console.log(allCountries);
     setCountries(allCountries);
   }, []);
 

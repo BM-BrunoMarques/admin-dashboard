@@ -7,8 +7,7 @@ import TableRender from "../utils/TableRender/TableRender";
 import AddOrderForm from "./AddOrderForm/AddOrderForm";
 import ModalForm from "../utils/ModalForm/ModalForm";
 
-const OrdersManagement: React.FC = (props) => {
-  const [selected, setSelected] = React.useState<string[]>([]);
+const OrdersManagement: React.FC = () => {
   const enhanced = true;
   const dispatch = useAppDispatch();
 

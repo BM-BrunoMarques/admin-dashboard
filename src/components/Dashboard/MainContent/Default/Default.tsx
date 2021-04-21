@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import { orderColumns } from "../OrdersManagement/Columns/orderColumns";
 import { useTheme } from "@material-ui/core/styles";
@@ -27,13 +27,7 @@ const Default: React.FC = () => {
   const columns = orderColumns(false);
   const { orders } = useAppSelector((state) => state.orders);
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
-  const [gridHeight, setGridSize] = useState<number>();
-  const cardsGridRef = useRef<HTMLDivElement>(null);
   const [visibleRows, setVisibleRows] = useState<SI.OrderState[]>([]);
-
-  useEffect(() => {
-    setGridSize(cardsGridRef!.current!.offsetHeight - 8);
-  }, [cardsGridRef]);
 
   return (
     <>
@@ -45,7 +39,7 @@ const Default: React.FC = () => {
           style={{ display: "flex", justifyContent: "space-around" }}
         >
           <Grid item xs={12} md={5}>
-            <Grid container spacing={1} ref={cardsGridRef}>
+            <Grid container spacing={1}>
               {cardData.map((card) => (
                 <Grid item key={card.title} xs={12} sm={6}>
                   <RenderCard data={card} />
@@ -59,7 +53,7 @@ const Default: React.FC = () => {
             item
             style={{
               position: "relative",
-              height: isSmall ? "265px" : '320px',
+              height: isSmall ? "265px" : "320px",
             }}
           >
             <Bar

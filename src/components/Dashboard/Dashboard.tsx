@@ -69,31 +69,30 @@ const Dashboard: React.FC = () => {
   return (
     <div className={classes.root}>
       <ThemeProvider theme={theme}>
-        <CssBaseline>
-          <TopBarApp
-            handleDrawerOpen={handleDrawerOpen}
-            open={open}
-            classes={classes}
-            dark={dark}
-            handleDarkMode={handleDarkMode}
-          />
+        <CssBaseline />
+        <TopBarApp
+          handleDrawerOpen={handleDrawerOpen}
+          open={open}
+          classes={classes}
+          dark={dark}
+          handleDarkMode={handleDarkMode}
+        />
 
-          <DrawerMenu
-            handleDrawerClose={handleDrawerClose}
-            open={open}
-            classes={classes}
-            url={url}
-            setCurrentUrl={setCurrentUrl}
-          />
+        <DrawerMenu
+          handleDrawerClose={handleDrawerClose}
+          open={open}
+          classes={classes}
+          url={url}
+          setCurrentUrl={setCurrentUrl}
+        />
 
-          <MainContent
-            path={path}
-            classes={classes}
-            sessionSKey={sessionSKey}
-            setCurrentUrl={setCurrentUrl}
-            currentUrl={currentUrl}
-          />
-        </CssBaseline>
+        <MainContent
+          path={path}
+          classes={classes}
+          sessionSKey={sessionSKey}
+          setCurrentUrl={setCurrentUrl}
+          currentUrl={currentUrl}
+        />
       </ThemeProvider>
     </div>
   );

@@ -50,7 +50,6 @@ const MasonryWrap = ({ children }) => {
     [theme.breakpoints.values.xs]: 1,
   };
 
-  console.log(children);
   return (
     <Masonry
       breakpointCols={breakpointCols}

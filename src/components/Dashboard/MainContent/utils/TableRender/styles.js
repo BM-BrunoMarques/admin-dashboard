@@ -1,7 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 export const parentStyles = (parent) => {
-  console.log(parent);
   const base = {
     paper: {
       width: "100%",

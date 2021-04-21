@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import clsx from "clsx";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
@@ -95,7 +95,7 @@ const DrawerMenu: React.FC<DrawerProps> = (props) => {
       </div>
       <Divider />
       <List>
-        {dashboardLinks.map((link, index) => {
+        {dashboardLinks.map((link) => {
           const { label, path, icon } = link;
           return (
             <Link

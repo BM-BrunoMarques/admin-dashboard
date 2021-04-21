@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { Route, Link, useHistory } from "react-router-dom";
+import { Route, useHistory } from "react-router-dom";
 import SignIn from "./SignIn/SignIn";
 import Dashboard from "./Dashboard/Dashboard";
 import { readCookie } from "../helpers/cookie";

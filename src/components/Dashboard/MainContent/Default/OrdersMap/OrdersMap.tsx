@@ -66,12 +66,9 @@ const OrdersMap: React.FC<OrdersMapProps> = (props) => {
             ))
           }
         </Geographies>
-        {Markers.length &&
-          Markers.map((marker) => {
-            console.log("calledzzz");
-
-            return <RenderMarker marker={marker} setToolTip={setToolTip} />;
-          })}
+        {Markers.length && (
+          <RenderMarker Markers={Markers} setToolTip={setToolTip} />
+        )}
       </ComposableMap>
       <ReactTooltip>{toolTip}</ReactTooltip>
     </>

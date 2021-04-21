@@ -32,7 +32,7 @@ const pageVariants = {
 };
 
 const MainContent: React.FC<MainContentProps> = (props) => {
-  const { classes, path, setCurrentUrl } = props;
+  const { classes, path } = props;
 
   const location = useLocation();
 

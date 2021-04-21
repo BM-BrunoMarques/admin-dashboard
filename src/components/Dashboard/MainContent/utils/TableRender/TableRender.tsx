@@ -32,12 +32,6 @@ type UnenhancedProps = {
 
 type OrderTableProps = BaseProps & (EnhancedProps | UnenhancedProps);
 
-function isUserState(
-  rows: SI.OrderState[] | SI.UserState[]
-): rows is SI.UserState[] {
-  return (rows as SI.UserState[]) !== undefined;
-}
-
 const TableRender: React.FC<OrderTableProps> = (props) => {
   const theme = useTheme();
   const enhancedProps: OrderTableProps = {

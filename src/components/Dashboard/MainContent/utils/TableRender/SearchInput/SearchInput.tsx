@@ -11,12 +11,6 @@ interface SearchProps {
   rows: any;
 }
 
-function isUserState(
-  rows: SI.OrderState[] | SI.UserState[]
-): rows is SI.UserState[] {
-  return (rows as SI.UserState[]) !== undefined;
-}
-
 const SearchInput: React.FC<SearchProps> = (props) => {
   const { rows, setEnhancedRows } = props;
   const [searchText, setSearchText] = useState("");

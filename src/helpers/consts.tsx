@@ -3,11 +3,6 @@ export enum UserType {
   USER = 1,
 }
 
-interface Name {
-  firstName: string;
-  lastName: string;
-}
-
 export interface UserState {
   authentication: {
     id: number;

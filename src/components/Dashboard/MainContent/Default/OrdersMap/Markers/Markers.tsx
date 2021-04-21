@@ -14,7 +14,6 @@ const variants = {
     opacity: 1,
     scale: [2, 1.5],
     transition: {
-      // delay: 0.4,
       ease: "easeIn",
       duration: 0.4,
     },
@@ -26,35 +25,41 @@ const variants = {
 };
 
 type props = {
-  marker: SI.Markers;
+  Markers: SI.Markers[];
   setToolTip: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const RenderMarker: React.FC<props> = ({ marker, setToolTip }) => {
-  const { country, geoLocation, total } = marker;
-  const { lat, long } = geoLocation;
-
+const RenderMarker: React.FC<props> = ({ Markers, setToolTip }) => {
   return (
-    <Marker
-      key={country}
-      name={country}
-      coordinates={[long, lat]}
-      onMouseEnter={() => {
-        setToolTip(`${country} : ${total} orders.`);
-      }}
-      onMouseLeave={() => {
-        setToolTip("");
-      }}
-    >
-      <motion.circle
-        r={(total * 2) / 1.5}
-        fill="#F53"
-        variants={variants}
-        initial="initial"
-        animate="in"
-        exit="out"
-      />
-    </Marker>
+    <>
+      {Markers.map((marker) => {
+        const { country, geoLocation, total } = marker;
+        const { lat, long } = geoLocation;
+
+        return (
+          <Marker
+            key={geoLocation.lat}
+            name={country}
+            coordinates={[long, lat]}
+            onMouseEnter={() => {
+              setToolTip(`${country} : ${total} orders.`);
+            }}
+            onMouseLeave={() => {
+              setToolTip("");
+            }}
+          >
+            <motion.circle
+              r={(total * 2) / 1.5}
+              fill="#F53"
+              variants={variants}
+              initial="initial"
+              animate="in"
+              exit="out"
+            />
+          </Marker>
+        );
+      })}
+    </>
   );
 };
 

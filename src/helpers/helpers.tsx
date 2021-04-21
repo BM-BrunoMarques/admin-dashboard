@@ -1,4 +1,3 @@
-import { TypeOf } from "yup";
 import * as SI from "./consts";
 export const generateOrder = (
   name: string,
@@ -9,7 +8,6 @@ export const generateOrder = (
 ) => {
   const id = generateId();
   const dateObj = new Date();
-  console.log("total is :", total);
 
   const date = `${
     dateObj.getMonth() + 1

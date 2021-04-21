@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useFormik, Field, FormikProvider } from "formik";
+import React from "react";
+import { useFormik } from "formik";
 import * as yup from "yup";
 import * as SI from "../../../../../helpers/consts";
 import Divider from "@material-ui/core/Divider";
@@ -8,8 +8,6 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import NumberFormat from "react-number-format";
 import { useAppDispatch } from "../../../../../app/hooks";
 import { createUser } from "../../../../../features/UserManagement/usersSlice";
 
@@ -48,8 +46,6 @@ const useStyles = makeStyles((theme) => ({
 const AddUserForm: React.FC = () => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
-
-  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   const classes = useStyles();
 
