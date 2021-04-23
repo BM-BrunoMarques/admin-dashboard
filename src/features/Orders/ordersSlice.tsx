@@ -6,28 +6,28 @@ import { generateOrder } from "../../helpers/helpers";
 export const initialState: SI.OrderStateObj = {
   orders: [
     generateOrder(
-      "Frozen yoghurt",
-      "90731 cherry blossom. CA",
+      "Pastel de Nata",
+      "Avenida da Liberdade, Lisbon",
       {
         name: "Portugal",
         code: "PT",
       },
-      "$129.99",
+      "$63.99",
       "Shipped"
     ),
     generateOrder(
-      "Ice cream sandwich",
-      "90731 cherry blossom. CA",
+      "Queijo da Ilha",
+      "Rua Augusta, Lisbon",
       {
         name: "Portugal",
         code: "PT",
       },
-      "$129.99",
+      "$499.99",
       "Shipped"
     ),
     generateOrder(
       "Eclair",
-      "90731 cherry blossom. CA",
+      "Avenue de L'Opéra, Paris",
       {
         name: "France",
         code: "FR",
@@ -36,13 +36,13 @@ export const initialState: SI.OrderStateObj = {
       "Shipped"
     ),
     generateOrder(
-      "Cupcake",
+      "American Pie",
       "90731 cherry blossom. CA",
       {
         name: "United States",
         code: "US",
       },
-      "$129.99",
+      "$49.99",
       "Shipped"
     ),
     generateOrder(
@@ -56,18 +56,18 @@ export const initialState: SI.OrderStateObj = {
       "Shipped"
     ),
     generateOrder(
-      "Frozen yoghurt",
-      "90731 cherry blossom. CA",
+      "Baguette",
+      "Rue Montorgueil, Paris",
       {
         name: "France",
         code: "FR",
       },
-      "$129.99",
+      "$88.49",
       "Shipped"
     ),
     generateOrder(
       "Ice cream sandwich",
-      "90731 cherry blossom. CA",
+      "Sovetskaya Street",
       {
         name: "Russia",
         code: "RU",
@@ -76,33 +76,33 @@ export const initialState: SI.OrderStateObj = {
       "Shipped"
     ),
     generateOrder(
-      "Eclair",
-      "90731 cherry blossom. CA",
+      "Picanha steak",
+      "Sao Paulo",
       {
-        name: "Russia",
-        code: "RU",
+        name: "Brazil",
+        code: "BR",
       },
-      "$129.99",
+      "$300.00",
       "Shipped"
     ),
     generateOrder(
       "Eclair",
-      "90731 cherry blossom. CA",
+      "Zhongshan , Chungshan",
       {
         name: "China",
         code: "CN",
       },
-      "$129.99",
+      "$49.99",
       "Shipped"
     ),
     generateOrder(
-      "Eclair",
-      "90731 cherry blossom. CA",
+      "Fruit Cake",
+      "Chungshan, Jhongsha",
       {
         name: "China",
         code: "CN",
       },
-      "$129.99",
+      "$229.99",
       "Shipped"
     ),
   ],

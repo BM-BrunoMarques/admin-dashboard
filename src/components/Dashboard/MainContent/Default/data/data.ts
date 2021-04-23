@@ -40,7 +40,7 @@ export const chartData = {
   labels: ["January", "February", "March", "April", "May", "June", "July"],
   datasets: [
     {
-      label: "My First dataset",
+      label: "Orders processed",
       fill: false,
       lineTension: 0.1,
       backgroundColor: "rgba(75,192,192,0.4)",
@@ -54,10 +54,10 @@ export const chartData = {
       pointHoverBorderWidth: 2,
       pointRadius: 1,
       pointHitRadius: 10,
-      data: [65, 59, 80, 81, 56, 55, 40],
+      data: [25, 59, 80, 81, 56, 55, 70],
     },
     {
-      label: "My Second dataset",
+      label: "Orders returned",
       fill: false,
       lineTension: 0.1,
       backgroundColor: "rgba(75,82,192,0.4)",
@@ -71,7 +71,7 @@ export const chartData = {
       pointHoverBorderWidth: 2,
       pointRadius: 1,
       pointHitRadius: 10,
-      data: [40, 55, 56, 81, 80, 59, 65],
+      data: [2, 8, 5, 12, 4, 1, 14],
     },
   ],
 };

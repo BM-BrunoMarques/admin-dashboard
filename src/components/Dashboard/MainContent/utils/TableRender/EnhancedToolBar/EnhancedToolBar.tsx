@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteOutline from "@material-ui/icons/DeleteOutline";
 
@@ -13,7 +13,7 @@ const EnhancedToolBar: React.FC<any> = ({
 
   return (
     <>
-      {selectedRows && (
+      {selectedRows.length && (
         <>
           <IconButton
             onClick={handleDelete}
@@ -23,7 +23,7 @@ const EnhancedToolBar: React.FC<any> = ({
           >
             <DeleteOutline />
           </IconButton>
-          {selectedCount} Selected
+          {selectedRows.length} Selected
         </>
       )}
     </>

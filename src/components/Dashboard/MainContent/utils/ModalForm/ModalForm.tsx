@@ -38,7 +38,6 @@ const ModalForm: React.FC = ({ children }) => {
           animate={{
             opacity: [0.8, 1],
             scale: [1.4, 1.3, 1.4],
-            borderRadius: ["20%", "20%", "50%", "50%", "20%"],
           }}
           transition={{
             duration: 0.5,
@@ -64,7 +63,7 @@ const ModalForm: React.FC = ({ children }) => {
             animate="in"
             exit="out"
             variants={variants}
-            style={{ maxWidth: "800px", y: "25%", margin: "0 auto" }}
+            style={{ maxWidth: "800px", y: "35%", margin: "0 auto" }}
           >
             <Paper style={{ padding: "30px" }}>{children}</Paper>
           </motion.div>

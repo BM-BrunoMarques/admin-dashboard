@@ -6,7 +6,8 @@ import DataTable from "react-data-table-component";
 import EnhancedToolBar from "./EnhancedToolBar/EnhancedToolBar";
 import Checkbox from "@material-ui/core/Checkbox";
 import SearchInput from "./SearchInput/SearchInput";
-import { useTheme } from "@material-ui/core/styles";
+import { useTheme, withStyles } from "@material-ui/core/styles";
+import DeleteButton from "./DeleteButton/DeleteButton";
 
 import "./table.css";
 
@@ -55,6 +56,8 @@ const TableRender: React.FC<OrderTableProps> = (props) => {
   const [enhancedRows, setEnhancedRows] = useState<
     SI.OrderState[] | SI.UserState[]
   >([]);
+  const [toggledClearSelected, setClearSelected] = useState(false);
+
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [page, setPage] = useState<number>(0);
@@ -83,9 +86,9 @@ const TableRender: React.FC<OrderTableProps> = (props) => {
         paddingLeft: "8px",
         paddingRight: "8px",
       },
-      Checkbox: {
+      MuiCheckboxRoot: {
         style: {
-          background: "red",
+          color: "#f50057",
         },
       },
     },
@@ -93,6 +96,7 @@ const TableRender: React.FC<OrderTableProps> = (props) => {
 
   useEffect(() => {
     setEnhancedRows(rows);
+    setClearSelected((prev) => !prev);
   }, [rows]);
 
   useEffect(() => {
@@ -156,6 +160,8 @@ const TableRender: React.FC<OrderTableProps> = (props) => {
         selectableRows={enhanced}
         selectableRowsVisibleOnly
         selectableRowsHighlight
+        contextActions={<DeleteButton />}
+        clearSelectedRows={toggledClearSelected}
         selectableRowsComponent={Checkbox}
         contextComponent={
           <EnhancedToolBar
