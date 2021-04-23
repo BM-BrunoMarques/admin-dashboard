@@ -10,10 +10,10 @@ The goal with this App was to create a solid base for an admin dashboard in whic
 
 ## Insights
 
-This was meant to be a frontend only project, so any interactions that I am having with the backend, are being reprodruced through a fake backend that I created. I did a "Monkey Path" to the fetch function, and intercept it whenever necessary to simulate the data processing and server response
+This was meant to be a frontend only project, so any interactions that I am having with the backend, are being reproduced through a fake backend that I created. I did a "Monkey Path" to the fetch function, and intercept it whenever necessary to simulate the data processing and server response
 
 
-##Techonologies
+## Techonologies
 This project was all built in **React**, mainly with **Hooks** and **functional components**. **Typescript**.
  **Redux ToolKit** for state management. **Formik** and **Yup** for forms validation and **framer-motion** for animations.
 
@@ -31,6 +31,3 @@ Suggestion:
 
 
 ### This Website was cross tested and will use cookies to set a token of authentication
-
-## Preview
-
