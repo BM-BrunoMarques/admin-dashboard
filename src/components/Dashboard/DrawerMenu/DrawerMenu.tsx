@@ -8,8 +8,9 @@ import IconButton from "@material-ui/core/IconButton";
 import { Link, useHistory } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { withStyles } from "@material-ui/core/styles";
-
+import { useAppSelector } from "../../../app/hooks";
 import Typography from "@material-ui/core/Typography";
+import * as SI from "../../../helpers/consts";
 
 //icons
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -32,6 +33,9 @@ interface DrawerProps {
 const DrawerMenu: React.FC<DrawerProps> = (props) => {
   const theme = useTheme();
   const history = useHistory();
+  const authUserType = useAppSelector(
+    (theme) => theme.auth.user.authentication.type
+  );
 
   const BiggerListItemIcon = withStyles({
     root: {
@@ -56,6 +60,7 @@ const DrawerMenu: React.FC<DrawerProps> = (props) => {
       label: "Users",
       path: "users",
       icon: <PeopleAltIcon />,
+      privateRoute: true,
     },
   ];
 
@@ -96,7 +101,11 @@ const DrawerMenu: React.FC<DrawerProps> = (props) => {
       <Divider />
       <List>
         {dashboardLinks.map((link) => {
-          const { label, path, icon } = link;
+          const { label, path, icon, privateRoute } = link;
+
+          if (privateRoute && authUserType !== SI.UserType.ADMIN) {
+            return <></>;
+          }
           return (
             <Link
               color="inherit"

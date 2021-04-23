@@ -10,12 +10,21 @@ import ModalForm from "../utils/ModalForm/ModalForm";
 const UsersManagement: React.FC = () => {
   const enhanced = true;
   const dispatch = useAppDispatch();
+  const allUsers = useAppSelector((state) => state.users.users);
+  const authUserId = useAppSelector(
+    (state) => state.auth.user.authentication.id
+  );
 
   const handleDeleteUsers = (id: number[]) => {
-    dispatch(deleteUsers(id));
+    if (id.includes(authUserId)) {
+      alert(
+        "You can't delete your own user. Please authenticate as another Admin"
+      );
+    } else {
+      dispatch(deleteUsers(id));
+    }
   };
 
-  const allUsers = useAppSelector((state) => state.users.users);
   const columns = userColumns(enhanced, handleDeleteUsers);
 
   return (

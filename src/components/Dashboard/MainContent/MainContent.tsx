@@ -4,6 +4,7 @@ import { Route, Switch, useLocation } from "react-router-dom";
 import OrdersManagement from "./OrdersManagement/OrdersManagement";
 import UsersManagement from "./UsersManagement/UsersManagement";
 import { motion, AnimatePresence } from "framer-motion";
+import PrivateUserRoute from "./utils/PrivateUserRoute/PrivateUserRoute";
 
 interface MainContentProps {
   classes: any;
@@ -65,7 +66,7 @@ const MainContent: React.FC<MainContentProps> = (props) => {
               </motion.div>
             </Route>
 
-            <Route exact path={`${path}/users`}>
+            <PrivateUserRoute path={`${path}/users`}>
               <motion.div
                 initial="initial"
                 animate="in"
@@ -74,7 +75,7 @@ const MainContent: React.FC<MainContentProps> = (props) => {
               >
                 <UsersManagement />
               </motion.div>
-            </Route>
+            </PrivateUserRoute>
           </div>
         </Switch>
       </AnimatePresence>
